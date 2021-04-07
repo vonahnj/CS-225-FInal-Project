@@ -12,4 +12,4 @@
 3. **Conflict Resolution** The team will attempt to solve all conflicts internally via discussion. If a resolution cannot be reached in this format, the conflict will be put to rest by the team member selected by a random number generator. 
 
 ### Signatures
-I, Sonali Merchia (merchia2) agree to the terms of this contract.
+I, Sonali Merchia (merchia2), Patrick Yu (pzy2) agree to the terms of this contract.
