@@ -1,11 +1,17 @@
+# Define executable for main program
 EXENAME = encounters
+
+# Define locations for files
 OBJS = data_reader.o trees/avl_tree.o trees/kd_tree.o
 HEADERFILES = data_reader.h trees/avl_tree.h trees/kd_tree.h
 SOURCEFILES = data_reader.cpp trees/avl_tree.cpp trees/kd_tree.cpp
 SUBSEQUENTFILES = data_reader.cpp data_reader.h trees/avl_tree.cpp trees/avl_tree.h trees/kd_tree.cpp trees/kd_tree.h 
+
+# Define locations for test files
 TESTOBJS = tests/test_makefile.o
 TESTFILES = tests/test_makefile.cpp
 
+# Define compiler information
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -stdlib=libc++ -c -g -O0 -Wall -Wextra -pedantic
 LD = clang++
