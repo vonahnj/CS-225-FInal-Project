@@ -4,9 +4,9 @@
  */
 #include <iostream>
 
-#include "avl_tree.h"
+#include "trees/avl_tree.h"
 #include "data_reader.h"
-#include "kd_tree.h"
+#include "trees/kd_tree.h"
 
 using namespace encounters;
 

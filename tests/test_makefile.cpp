@@ -1,7 +1,7 @@
-#include "../cs225/catch/catch.hpp"
+#include "../catch/catch.hpp"
 
-#include "../kd_tree.h"
-#include "../avl_tree.h"
+#include "../trees/kd_tree.h"
+#include "../trees/avl_tree.h"
 #include "../data_reader.h"
 
 using namespace encounters;

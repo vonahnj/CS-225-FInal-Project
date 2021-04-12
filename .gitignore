@@ -1,0 +1,10 @@
+# Ignore executable files
+test
+encounters
+
+# Ignore objects
+main.o
+data_reader.o
+catchmain.o
+trees/avl_tree.o
+trees/kd_tree.o
