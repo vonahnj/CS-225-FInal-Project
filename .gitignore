@@ -2,9 +2,8 @@
 test
 encounters
 
-Ignore objects
+# Ignore objects
 .vscode
-.objs
 .objs/cs225/catch/*.d
 .objs/cs225/catch/*.o
 .objs/cs225/lodepng/*.d
