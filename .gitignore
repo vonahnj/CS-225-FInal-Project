@@ -2,15 +2,16 @@
 test
 encounters
 
-# Ignore objects
+Ignore objects
 .vscode
 .objs
-.objs/cs225/catch/catchmain.d
-.objs/cs225/catch/catchmain.o
-.objs/cs225/lodepng/lodepng.d
-.objs/cs225/lodepng/lodepng.o
-.objs/cs225/HSLAPixel.d
-.objs/cs225/PNG.o
-.objs/encounter.o
-.objs/tests/test_make.o
-.objs/main.o
+.objs/cs225/catch/*.d
+.objs/cs225/catch/*.o
+.objs/cs225/lodepng/*.d
+.objs/cs225/lodepng/*.o
+.objs/cs225/*.d
+.objs/cs225/*.o
+.objs/tests/*.o
+.objs/tests/*.d
+.objs/*.o
+.objs/*.d
