@@ -3,8 +3,14 @@ test
 encounters
 
 # Ignore objects
-main.o
-data_reader.o
-catchmain.o
-trees/avl_tree.o
-trees/kd_tree.o
+.vscode
+.objs
+.objs/cs225/catch/catchmain.d
+.objs/cs225/catch/catchmain.o
+.objs/cs225/lodepng/lodepng.d
+.objs/cs225/lodepng/lodepng.o
+.objs/cs225/HSLAPixel.d
+.objs/cs225/PNG.o
+.objs/encounter.o
+.objs/tests/test_make.o
+.objs/main.o
