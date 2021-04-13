@@ -3,17 +3,15 @@
 
 1. **Leading Question** Given a location or time period, we would like to evaluate nearby UFO encounters or sightings and plot them on a map. 
 
-2. **Dataset Acquistion and Processing** We propose using the [UFO Sightings Kaggle Dataset](https://www.kaggle.com/NUFORC/ufo-sightings). We will focus on the location given by latitude and longitude as well as the timestamps of each encounter in this dataset. This data is provided in a `*.csv` format, and we will cite this reference from [Geeks for Geeks](https://www.geeksforgeeks.org/csv-file-management-using-c/) to load the data into a KD-Tree keyed to latitude and longitude as well as an AVL Tree keyed to timestamps. The values of each node in the KD-Tree and AVL Tree will be a pointer to a struct holding the data for that encounter. For our graph structure, we propose that each column will represent a range of dates and the height of the columns will correspond with the frequency of encounters during that time period. We recognize that this data is large, and potentially error-ridden; thus, we will drop any records that don't contain all three of the required fields for our purposes (latitude, longitude, and timestamp) and/or any malformed records.
+2. **Dataset Acquistion and Processing** We propose using the [UFO Sightings Kaggle Dataset](https://www.kaggle.com/NUFORC/ufo-sightings). We will focus on the location given by latitude and longitude as well as the timestamps of each encounter in this dataset. This data is provided in a `*.csv` format, and we will cite this reference from [Geeks for Geeks](https://www.geeksforgeeks.org/csv-file-management-using-c/) to load the data into a graph where the nodes represent the locations of the encounters while there are two sets of colored edges. One color of edges represent two encounters occuring within a week of each other while the other connects any nodes that fall within a given radius of the other. We recognize that this data is large, and potentially error-ridden; thus, we will drop any records that don't contain all three of the required fields for our purposes (latitude, longitude, and timestamp) and/or any malformed records.
 
-3. **Graph Algorithms** For our graph traversal, we propose to implement an inorder traversal for dates through the AVL Tree.
+3. **Graph Algorithms** For our graph traversal, we propose to implement a traversal which starts at the earliest recorded encounter and parses acounters by time stamp from earliest to latest.
    
-For one of our algorithms, we propose implementing a modified findNearestNeighbor algorithm which instead of simply seeking out the closest neighbor, returns a queried number of closest neighbors. For instance if you passed in a location and the number 4, you would get the 4 closest encounters to your location. 
+For one of our algorithm, we propose implementing an algorithm which finds the shortest route between two given nodes with the maximum number of encounters between them.
    
-For our other algorithms, we propose implementing a second modified findNearestNeighbor algorithm which instead of simply seeking out the closest neighbor or number of closest neighbors, it returns all encounters that occured within a given radius of the query. For example, if you passed in a location and 4, it would return all the locations within 4 miles. 
+For our other algorithms, we propose implementing a midpoints algorithm which given two encounters, will return the set of encounters which falls between them. For instance, if given two encounters, imagine a rectangle where the two encounters fall on opposite ends of the diagonal. The algorithm will return all encounters falling within the rectangle that also temporally occurred between the two nodes. 
 
-To help with graph creation, we will also create a way to find the closest timestamp to a given time using the AVL Tree so we can query start and end times before traversing our way from the start node to the end node.
-
-1. **Timeline** 
+4. **Timeline** 
 
    April 7 - sync to complete project proposal and team contract
    
@@ -21,13 +19,13 @@ To help with graph creation, we will also create a way to find the closest times
    
    April 12 - set up initial repository and Makefile
    
-   April 15 - finish reading in data AVL Tree format and write simple tests to verify correctness
+   April 15 - finish reading in data to graph and write simple tests to verify correctness
    
-   April 19 - use traversal of AVL Tree to create KD Tree
+   April 19 - write traversal of graph and simple tests to verify correctness
    
-   April 22 - write first modified findNearestNeighbor algorithim
+   April 22 - write first algorithm and write tests to verify correctness
    
-   April 29 - write second modified findNearestNeighbor algorithim
+   April 29 - write second algorithm and write tests to verify correctness
    
    May 5 - write graph projection onto map and verify with tests
    

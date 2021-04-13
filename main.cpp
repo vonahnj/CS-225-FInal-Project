@@ -3,10 +3,7 @@
  * A simple program that allocates students to rooms.
  */
 #include <iostream>
-
-#include "trees/avl_tree.h"
-#include "data_reader.h"
-#include "trees/kd_tree.h"
+#include "encounter.h"
 
 using namespace encounters;
 
@@ -17,13 +14,5 @@ using namespace encounters;
 int main()
 {
     std::cout << "Hello World!" << std::endl;
-    KDTree kd;
-    std::cout<<kd.exists()<<std::endl;
-
-    AVLTree avl;
-    std::cout<<avl.exists()<<std::endl;
-
-	DataReader data;
-    std::cout<<data.exists()<<std::endl;
     return 0;
 }
