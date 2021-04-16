@@ -3,10 +3,26 @@
 
 namespace encounters {
     double dist(const date &first, const date &second) {
-        int yearDiff = first.year - second.year;
-        int monthDiff = first.month - second.month;
-        int dayDiff = first.day - second.day;
-        return abs((int)(yearDiff*365.25) + (int)(monthDiff*30.5) + dayDiff);
+        int day1 = first.day;
+        int month1 = first.month;
+        int year1 = first.year;
+
+        int day2 = second.day;
+        int month2 = second.month;
+        int year2 = second.year;
+
+        if (month1 <= 2) {
+            month1 += 12;
+            year1 -= 1;
+        }            
+        
+        if(month2 <= 2) {
+            month2 += 12;
+            year2 -= 1;
+        }
+        int no_of_days1 = (146097*year1)/400 + (153*month1 + 8)/5 + day1;
+        int no_of_days2 = (146097*year2)/400 + (153*month2 + 8)/5 + day2;
+        return abs(no_of_days2 - no_of_days1);
     }
 
     double dist(const encounter &first, const encounter &second) {
@@ -31,7 +47,7 @@ namespace encounters {
                    cos(lat1) * cos(lat2);
         double rad = 6371;
         double c = 2 * asin(sqrt(a));
-        return rad * c;
+        return abs(rad * c);
     }
 
     bool operator<(const date &first, const date &second) {
