@@ -40,6 +40,6 @@ namespace encounters {
     bool operator==(const encounter::edge &first, const encounter::edge &second);
 
     bool operator==(const encounter &first, const encounter &second);
-    int dist(const date &first, const date &second);
+    double dist(const date &first, const date &second);
     double dist(const encounter &first, const encounter &second);
 }
