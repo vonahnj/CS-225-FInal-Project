@@ -24,10 +24,10 @@ TEST_CASE("Test time elapsed between two timepoints - random") {
 
 //https://www.movable-type.co.uk/scripts/latlong.html
 TEST_CASE("Test distance between two places") {
-    location one;
-    one.first = 40.1342432; one.second = 50.2343242;
-    location two;
-    two.first = 56.342324; two.second = 18.4243243;
+    encounter one;
+    one.location.first = 40.1342432; one.location.second = 50.2343242;
+    encounter two;
+    two.location.first = 56.342324; two.location.second = 18.4243243;
 
-    REQUIRE(dist(one.time, two.time) == 2923);
+    REQUIRE(round(dist(one, two)) == 2923);
 }
