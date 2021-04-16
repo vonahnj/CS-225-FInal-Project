@@ -36,7 +36,6 @@ namespace encounters {
     bool operator<(const date &first, const date &second);
     bool operator==(const date &first, const date &second);
     bool operator!=(const date &first, const date &second);
-
     bool operator==(const encounter::edge &first, const encounter::edge &second);
 
     bool operator==(const encounter &first, const encounter &second);

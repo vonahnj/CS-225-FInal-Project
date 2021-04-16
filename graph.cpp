@@ -8,7 +8,6 @@
 
 namespace encounters {
     Graph::Graph(const std::string &file_name) {
-        std::cout<<"Graph constructor"<<std::endl;
         std::fstream fin;
         fin.open(file_name, std::ios::in);
 
@@ -36,6 +35,7 @@ namespace encounters {
             std::string longitude = components.at(10);
 
             std::cout<<timestamp<<'\t'<<latitude<<'\t'<<longitude<<'\t'<<std::endl;
+            
         }
     }
 }
