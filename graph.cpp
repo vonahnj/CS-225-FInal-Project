@@ -12,11 +12,9 @@ namespace encounters {
         std::fstream fin;
         fin.open(file_name, std::ios::in);
 
-        int index = 0;
         int missedEntries = 0;
   
-        while (fin.good() && index < 5) {
-            index++;
+        while (fin.good()) {
             std::string line, word;
             getline(fin, line);
             std::stringstream s(line);
@@ -31,14 +29,26 @@ namespace encounters {
                 continue;
             }
 
-            std::string timestamp = components.at(0);
-            std::string latitude = components.at(9);
-            std::string longitude = components.at(10);
+            date d = parseDate(components.at(0));
+            double lat = parseDouble(components.at(9));
+            double longit = parseDouble(components.at(10));
 
-            //std::cout<<timestamp<<'\t'<<latitude<<'\t'<<longitude<<'\t'<<std::endl;
-            date d = parseDate(timestamp);
-            double lat = parseDouble(latitude);
-            double longit = parseDouble(longitude);
+            if (d.year == 0 || lat == 0 || longit == 0) {
+                missedEntries++;
+            } else {
+                encounter *newEncounter = new encounter(d, lat, longit);
+                nodes_.push_back(newEncounter);
+            }
+        }
+
+        std::cout<<"missed: "<<missedEntries<<std::endl;
+        std::cout<<"worked: "<<nodes_.size()<<std::endl;
+        std::cout<<"read: "<<(1 - (double)(missedEntries)/(missedEntries + nodes_.size()))<<std::endl;
+    }
+
+    Graph::~Graph() {
+        for (size_t index = 0; index < nodes_.size(); ++index) {
+            delete nodes_.at(index);
         }
     }
 
@@ -58,13 +68,15 @@ namespace encounters {
         if (components.size() == 3) {
             try {
                 return date(std::stoi(components.at(1)), std::stoi(components.at(0)), std::stoi(components.at(2)));
-            } catch (std::invalid_argument e) {} 
-            catch (std::out_of_range e) {}
+            } catch (std::invalid_argument e) {} catch (std::out_of_range e) {}
         }
         return date();
     }
 
     double Graph::parseDouble(const std::string &doubleStr) {
+        try {
+            return std::stod(doubleStr);
+        } catch (std::invalid_argument e) {} catch (std::out_of_range e) {}
         return 0;
     }
 }

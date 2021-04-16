@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <vector>
+#include <ostream>
 #include <utility>
 
 namespace encounters {
@@ -30,8 +31,11 @@ namespace encounters {
         std::pair<double, double> location;
 
         encounter() : location(0, 0) {}
-        encounter(date t, double longit, double latit) : time(t), location(longit, latit) {}
+        encounter(date t, double latit, double longit) : time(t), location(latit, longit) {}
     };
+
+    std::ostream & operator<<(std::ostream &out, const date &d);
+    std::ostream & operator<<(std::ostream &out, const encounter &e);
 
     bool operator<(const date &first, const date &second);
     bool operator==(const date &first, const date &second);

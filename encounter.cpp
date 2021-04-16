@@ -67,4 +67,11 @@ namespace encounters {
 
         return first.time_neighbors != second.time_neighbors;
     }
+
+    std::ostream & operator<<(std::ostream &out, const date &d) {
+        return out<<d.month<<'/'<<d.day<<'/'<<d.year;
+    }
+    std::ostream & operator<<(std::ostream &out, const encounter &e) {
+        return out<<e.time<<"\t("<<e.location.first<<", "<<e.location.second<<")";
+    }
 }
