@@ -4,6 +4,7 @@
  */
 #include <iostream>
 #include "encounter.h"
+#include "graph.h"
 
 using namespace encounters;
 
@@ -14,5 +15,6 @@ using namespace encounters;
 int main()
 {
     std::cout << "Hello World!" << std::endl;
+    Graph("hi");
     return 0;
 }
