@@ -11,17 +11,14 @@ namespace encounters {
         int month2 = second.month;
         int year2 = second.year;
 
-        if (month1 <= 2) {
-            month1 += 12;
-            year1 -= 1;
-        }            
-        
-        if(month2 <= 2) {
-            month2 += 12;
-            year2 -= 1;
-        }
-        int no_of_days1 = (146097*year1)/400 + (153*month1 + 8)/5 + day1;
-        int no_of_days2 = (146097*year2)/400 + (153*month2 + 8)/5 + day2;
+        month1 = (month1 + 9) % 12;
+        year1 = year1 - month1/10;
+
+        month2 = (month2 + 9) % 12;
+        year2 = year2 - month2/10;
+
+        double no_of_days1 = (365*year1) + year1/4 - year1/100 + year1/400 + (306*month1 + 5)/10 + day1 - 1;
+        double no_of_days2 = (365*year2) + year2/4 - year2/100 + year2/400 + (306*month2 + 5)/10 + day2 - 1;
         return abs(no_of_days2 - no_of_days1);
     }
 
