@@ -10,8 +10,28 @@ namespace encounters {
     }
 
     double dist(const encounter &first, const encounter &second) {
-        return pow(pow(first.location.first - second.location.first, 2) + 
-                pow(first.location.second - second.location.second, 2), 0.5);
+        // Implementing Haversine formula to determine Great Circle distance
+        double lat1 = first.location.first;
+        double lat2 = second.location.first;
+        double lon1 = first.location.second;
+        double lon2 = second.location.second;
+
+        double dLat = (lat2 - lat1) *
+                      M_PI / 180.0;
+        double dLon = (lon2 - lon1) * 
+                      M_PI / 180.0;
+  
+        // convert to radians
+        lat1 *= (M_PI / 180.0);
+        lat2 *= (M_PI / 180.0);
+  
+        // apply formulae
+        double a = pow(sin(dLat / 2), 2) + 
+                   pow(sin(dLon / 2), 2) * 
+                   cos(lat1) * cos(lat2);
+        double rad = 6371;
+        double c = 2 * asin(sqrt(a));
+        return rad * c;
     }
 
     bool operator<(const date &first, const date &second) {
