@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "encounter.h"
 
 #include <vector>
 #include <string>
@@ -34,8 +35,36 @@ namespace encounters {
             std::string latitude = components.at(9);
             std::string longitude = components.at(10);
 
-            std::cout<<timestamp<<'\t'<<latitude<<'\t'<<longitude<<'\t'<<std::endl;
-            
+            //std::cout<<timestamp<<'\t'<<latitude<<'\t'<<longitude<<'\t'<<std::endl;
+            date d = parseDate(timestamp);
+            double lat = parseDouble(latitude);
+            double longit = parseDouble(longitude);
         }
+    }
+
+    date Graph::parseDate(const std::string &dateStr) {
+        std::string part;
+        std::stringstream s(dateStr);
+        std::vector<std::string> components;
+
+        while (getline(s, part, '/')) {
+            if (components.size() == 2) {
+                components.push_back(part.substr(0, 4));
+            } else {
+                components.push_back(part);
+            }
+        }
+
+        if (components.size() == 3) {
+            try {
+                return date(std::stoi(components.at(1)), std::stoi(components.at(0)), std::stoi(components.at(2)));
+            } catch (std::invalid_argument e) {} 
+            catch (std::out_of_range e) {}
+        }
+        return date();
+    }
+
+    double Graph::parseDouble(const std::string &doubleStr) {
+        return 0;
     }
 }
