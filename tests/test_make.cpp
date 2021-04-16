@@ -19,7 +19,7 @@ TEST_CASE("Test time elapsed between two timepoints - random") {
     encounter two;
     two.time.year = 2021; two.time.month=8; two.time.day=13;
 
-    REQUIRE(dist(one.time, two.time) == 4893);
+    REQUIRE(dist(one.time, two.time) == 4892);
 }
 
 //https://www.movable-type.co.uk/scripts/latlong.html
