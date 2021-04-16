@@ -2,7 +2,7 @@
 #include <math.h>
 
 namespace encounters {
-    int dist(const date &first, const date &second) {
+    double dist(const date &first, const date &second) {
         int yearDiff = first.year - second.year;
         int monthDiff = first.month - second.month;
         int dayDiff = first.day - second.day;
