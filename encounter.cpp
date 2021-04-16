@@ -6,7 +6,7 @@ namespace encounters {
         int yearDiff = first.year - second.year;
         int monthDiff = first.month - second.month;
         int dayDiff = first.day - second.day;
-        return abs(yearDiff*365 + floor(monthDiff*30.5) + dayDiff);
+        return abs(yearDiff*365 + (int)(monthDiff*30.5) + dayDiff);
     }
     double dist(const encounter &first, const encounter &second) {
         return pow(pow(first.location.first - second.location.first, 2) + 
