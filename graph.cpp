@@ -15,10 +15,13 @@ namespace encounters {
         std::fstream fin;
         fin.open(file_name, std::ios::in);
 
-        int missedEntries = 0;
-        int wrongState = 0;
-        int linkTime = 0;
+        // metric variables
+        // int missedEntries = 0;
+        // int wrongState = 0;
+        // int linkTime = 0;
+        
         size_t withinTime = 0;
+        
         while (fin.good()) {
             // Read in columns of line
             std::string line, word;
@@ -31,8 +34,8 @@ namespace encounters {
 
             // Ensure there are enough columns in the line
             if (components.size() < NUM_COLUMNS || components.at(STATE_COLUMN) != desired_state) {
-                wrongState++;
-                missedEntries++;
+                // wrongState++;
+                // missedEntries++;
                 continue;
             }
 
@@ -41,34 +44,38 @@ namespace encounters {
             double lat = parseDouble(components.at(LATITUDE_COLUMN));
             double longit = parseDouble(components.at(LONGITUDE_COLUMN));
 
-            // add to list of nodes if values all exist
+            // don't add to list if values could not be parsed
             if (d.year == 0 || lat == 0 || longit == 0) {
-                missedEntries++;
-            } else {
-                encounter *newEncounter = new encounter(d, lat, longit);
-                nodes_.push_back(newEncounter);
-                
-                bool updated = false;
-                while (!updated && withinTime < nodes_.size() - 1) {
-                    if (dist(nodes_.at(withinTime)->time, nodes_.back()->time) > TIME_THRESHOLD ) {
-                        withinTime++;
-                    } else updated = true;
-                }
-
-                for (size_t index = withinTime; index < nodes_.size() - 1; index++) {
-                    linkTime++;
-                    linkTimewise(index, nodes_.size() - 1);
-                }
+                // missedEntries++;
+                continue;
             }
+
+            encounter *newEncounter = new encounter(d, lat, longit);
+            nodes_.push_back(newEncounter);
+            
+            // Move withinTime pointer to point to the oldest record within the time threshold
+            bool updated = false;
+            while (!updated && withinTime < nodes_.size() - 1) {
+                if (dist(nodes_.at(withinTime)->time, nodes_.back()->time) > TIME_THRESHOLD ) {
+                    withinTime++;
+                } else updated = true;
+            }
+
+            // Link all records to older records within the time threshold
+            for (size_t index = withinTime; index < nodes_.size() - 1; index++) {
+                // linkTime++;
+                linkTimewise(index, nodes_.size() - 1);
+            }
+            
         }
 
-        linkNodes();
+        linkNodesDistanceWise();
 
-        std::cout<<"missed: "<<missedEntries<<std::endl;
+        // std::cout<<"missed: "<<missedEntries<<std::endl;
         std::cout<<"worked: "<<nodes_.size()<<std::endl;
-        std::cout<<"linked timewise: "<<linkTime<<std::endl;
-        std::cout<<"wrong state: "<<wrongState<<std::endl;
-        std::cout<<"read: "<<(1 - (double)(missedEntries)/(missedEntries + nodes_.size()))<<std::endl;
+        // std::cout<<"linked timewise: "<<linkTime<<std::endl;
+        // std::cout<<"wrong state: "<<wrongState<<std::endl;
+        // std::cout<<"read: "<<(1 - (double)(missedEntries)/(missedEntries + nodes_.size()))<<std::endl;
     }
 
     Graph::~Graph() {
@@ -107,28 +114,27 @@ namespace encounters {
         return 0;
     }
 
-    void Graph::linkNodes() {
-        int linkDist = 0;
+    void Graph::linkNodesDistanceWise() {
+        // Link distance 
+        // int linkDist = 0;
 
         for (size_t f_index = 0; f_index < nodes_.size(); f_index++) {
             encounter &first = *nodes_.at(f_index);
-            bool unlinked = true;
 
             for (size_t l_index = f_index + 1; l_index < nodes_.size(); l_index++) {
                 encounter &second = *nodes_.at(l_index);
+                double locDist = dist(first, second);
 
-                if (dist(first, second) < DISTANCE_THRESHOLD) {
-                    linkDist++;
-                    unlinked = false;
+                if (locDist < DISTANCE_THRESHOLD) {
+                    //linkDist++;
+                    
+                    first.time_neighbors.push_back(encounter::edge(first, second, locDist));
+                    second.time_neighbors.push_back(encounter::edge(second, first, locDist));
                 }
-            }
-
-            if (unlinked) {
-                std::cout<<"unlinked @"<<*nodes_.at(f_index)<<std::endl;
             }
         }
 
-        std::cout<<"linked distance: "<<linkDist<<std::endl;
+        //std::cout<<"linked distance: "<<linkDist<<std::endl;
     }
 
     void Graph::linkTimewise(size_t firstIndex, size_t secondIndex) {

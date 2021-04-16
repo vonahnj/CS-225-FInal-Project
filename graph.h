@@ -25,7 +25,7 @@ namespace encounters {
 
         private:
         std::vector<encounter*> nodes_;
-        void linkNodes();
+        void linkNodesDistanceWise();
         void linkTimewise(size_t firstIndex, size_t secondIndex);
     };
 }
