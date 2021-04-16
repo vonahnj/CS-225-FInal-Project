@@ -15,6 +15,6 @@ using namespace encounters;
 int main()
 {
     std::cout << "Hello World!" << std::endl;
-    Graph("hi");
+    Graph("data.csv");
     return 0;
 }
