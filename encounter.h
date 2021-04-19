@@ -26,12 +26,13 @@ namespace encounters {
         };
 
         date time;
+        size_t id;
         std::vector<edge> time_neighbors;
         std::vector<edge> loc_neighbors;
         std::pair<double, double> location;
 
-        encounter() : location(0, 0) {}
-        encounter(date t, double latit, double longit) : time(t), location(latit, longit) {}
+        encounter() : id(0), location(0, 0) {}
+        encounter(date time_, double latit_, double longit_, size_t id_) : time(time_), id(id_), location(latit_, longit_) {}
     };
 
     std::ostream & operator<<(std::ostream &out, const date &d);
@@ -45,4 +46,5 @@ namespace encounters {
     bool operator==(const encounter &first, const encounter &second);
     double dist(const date &first, const date &second);
     double dist(const encounter &first, const encounter &second);
-}
+
+} // namespace encounters
