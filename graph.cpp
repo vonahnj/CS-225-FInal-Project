@@ -1,7 +1,7 @@
 #include "graph.h"
 #include "encounter.h"
 #include "data_reader.h"
-#include "kd_tree/kdtree.h"
+#include "kdtree/kdtree.h"
 
 #include <vector>
 #include <string>

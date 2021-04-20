@@ -1,14 +1,14 @@
-.objs/main.o: main.cpp encounter.h graph.h kd_tree/kdtree.h \
-  kd_tree/point.h kd_tree/point.cpp kd_tree/../encounter.h
+.objs/main.o: main.cpp encounter.h graph.h kdtree/kdtree.h kdtree/point.h \
+  kdtree/point.hpp kdtree/../encounter.h
 
 encounter.h:
 
 graph.h:
 
-kd_tree/kdtree.h:
+kdtree/kdtree.h:
 
-kd_tree/point.h:
+kdtree/point.h:
 
-kd_tree/point.cpp:
+kdtree/point.hpp:
 
-kd_tree/../encounter.h:
+kdtree/../encounter.h:

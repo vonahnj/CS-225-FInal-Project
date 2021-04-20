@@ -1,16 +1,16 @@
-.objs/graph.o: graph.cpp graph.h encounter.h kd_tree/kdtree.h \
-  kd_tree/point.h kd_tree/point.cpp kd_tree/../encounter.h data_reader.h
+.objs/graph.o: graph.cpp graph.h encounter.h kdtree/kdtree.h \
+  kdtree/point.h kdtree/point.hpp kdtree/../encounter.h data_reader.h
 
 graph.h:
 
 encounter.h:
 
-kd_tree/kdtree.h:
+kdtree/kdtree.h:
 
-kd_tree/point.h:
+kdtree/point.h:
 
-kd_tree/point.cpp:
+kdtree/point.hpp:
 
-kd_tree/../encounter.h:
+kdtree/../encounter.h:
 
 data_reader.h:

@@ -1,8 +1,8 @@
 #include "../cs225/catch/catch.hpp"
 
 #include "../encounter.h"
-#include "../kd_tree/kdtree.h"
-#include "../kd_tree/point.h"
+#include "../kdtree/kdtree.h"
+#include "../kdtree/point.h"
 
 #include <vector>
 

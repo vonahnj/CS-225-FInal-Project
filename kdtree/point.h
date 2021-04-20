@@ -114,4 +114,5 @@ class Point {
 template <int Dim>
 std::ostream& operator<<(std::ostream& out, const Point<Dim>& p);
 
-#include "point.cpp"
+#include "point.hpp"
+ 

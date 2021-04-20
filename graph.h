@@ -2,7 +2,7 @@
 
 #include <string>
 #include "encounter.h"
-#include "kd_tree/kdtree.h"
+#include "kdtree/kdtree.h"
 
 namespace encounters {
     class Graph {        
