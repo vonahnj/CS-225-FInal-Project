@@ -7,6 +7,7 @@
 #include <utility>
 #include <algorithm>
 #include <iostream>
+#include <cmath>
 
 #include "kdtree.h"
 #include "../encounter.h"
