@@ -7,6 +7,12 @@
 
 using namespace encounters;
 
+void destroyEncounterVec1(vector<encounter*> &vec) {
+    for (size_t i = 0; i < vec.size(); i++) {
+        delete vec.at(i);
+    }
+}
+
 void linkTime(encounter &first, encounter &second) {
     first.time_neighbors.push_back(encounter::edge(first.id, second.id, dist(first.time, second.time)));
     second.time_neighbors.push_back(encounter::edge(second.id, first.id, dist(first.time, second.time)));
@@ -15,12 +21,6 @@ void linkTime(encounter &first, encounter &second) {
 void linkDist(encounter &first, encounter &second) {
     first.loc_neighbors.push_back(encounter::edge(first.id, second.id, dist(first, second)));
     second.loc_neighbors.push_back(encounter::edge(second.id, first.id, dist(first, second)));
-}
-
-void destroy(vector<encounter*> &vec) {
-    for (size_t i = 0; i < vec.size(); i++) {
-        delete vec.at(i);
-    }
 }
 
 TEST_CASE("Test no data points", "[data_reader]") {
@@ -50,7 +50,7 @@ TEST_CASE("Test few data points", "[data_reader]") {
         REQUIRE(*(result.at(i)) == expected.at(i));
     }
 
-    destroy(result);
+    destroyEncounterVec1(result);
 }
 
 TEST_CASE("Test many data points", "[data_reader]") {
@@ -61,5 +61,5 @@ TEST_CASE("Test many data points", "[data_reader]") {
 
     REQUIRE(result.size() == numRecords - numErroneousRecords);
 
-    destroy(result);
+    destroyEncounterVec1(result);
 }

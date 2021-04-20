@@ -68,16 +68,16 @@ vector<encounter*> KDTree::sort(const vector<encounter*> &source, int start, int
     if (smallerDimVal(currLeft, currRight, level % 2)) {
       sorted.push_back(*it_left);
       ++it_left;
-      currLeft = Point<2>((*it_left)->location.first, (*it_left)->location.second);
+      if (it_left != left.end()) currLeft = Point<2>((*it_left)->location.first, (*it_left)->location.second);
     } else {
       sorted.push_back(*it_right);
-      currRight = Point<2>((*it_right)->location.first, (*it_right)->location.second);
+      if (it_right != right.end()) currRight = Point<2>((*it_right)->location.first, (*it_right)->location.second);
       ++it_right;
     }
   }
 
-  sorted.insert(sorted.end(), it_left, left.end());
-  sorted.insert(sorted.end(), it_right, right.end());
+  if (it_left != left.end()) sorted.insert(sorted.end(), it_left, left.end());
+  if (it_right != right.end()) sorted.insert(sorted.end(), it_right, right.end());
 
   return sorted;
 }
@@ -102,7 +102,7 @@ KDTree::~KDTree() {
 int KDTree::findNearestNeighbor(const Point<2>& query) const {
   KDTreeNode* nearest = findNearestNeighbor(root, query, 0);
   if (nearest) {
-    return nearest->val;
+    return nearest->value;
   }
   
   return -1;
@@ -145,22 +145,23 @@ KDTree::KDTreeNode* KDTree::findNearestNeighbor(KDTreeNode* current, const Point
 }
 
 void KDTree::addSection(KDTreeNode *&subroot, const vector<encounter*>& newPoints, int start, int end, int level) {
+    if (start == end) {
+      subroot = new KDTreeNode(newPoints.at(start)->location, newPoints.at(start)->id);
 
-  if (start == end) {
-    subroot = new KDTreeNode(newPoints.at(start)->location, newPoints.at(start)->id);
-    return;
-  } else if (start > end) {
-    return;
-  }
+      return;
+    } else if (start > end) {
+      return;
+    }
 
-  vector<encounter*> orderedPoints = sort(newPoints, start, end, level);
-  size_t mid = (orderedPoints.size() - 1)/2;
-  subroot = new KDTreeNode(orderedPoints.at(mid)->location, orderedPoints.at(mid)->id);
-  if (mid != 0 ) {
-    addSection(subroot->left, orderedPoints, 0, mid -1, level+1);
-  }
-  addSection(subroot->right, orderedPoints, mid + 1, orderedPoints.size() - 1, level+1);
-  return;
+    vector<encounter*> orderedPoints = sort(newPoints, start, end, level);
+    size_t mid = (orderedPoints.size() - 1)/2;
+    subroot = new KDTreeNode(orderedPoints.at(mid)->location, orderedPoints.at(mid)->id);
+
+    if (mid != 0 ) {
+      addSection(subroot->left, orderedPoints, 0, mid -1, level+1);
+    }
+    addSection(subroot->right, orderedPoints, mid + 1, orderedPoints.size() - 1, level+1);
+    return;
 }
 
 void KDTree::_copy(const KDTree &other) {
@@ -180,7 +181,7 @@ void KDTree::_copy(const KDTreeNode *current, vector<encounter*>& newPoints) con
   }
   
   _copy(current->left, newPoints);
-  newPoints.push_back(new encounter(date(), current->point[0], current->point[1], current->val));
+  newPoints.push_back(new encounter(date(), current->point[0], current->point[1], current->value));
   _copy(current->right, newPoints);
 }
 

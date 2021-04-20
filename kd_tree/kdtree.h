@@ -37,11 +37,11 @@ class KDTree
     struct KDTreeNode
     {
       Point<2> point;
-      int val;
+      int value;
       KDTreeNode *left, *right;
 
       KDTreeNode() : point(), left(NULL), right(NULL) {}
-      KDTreeNode(const std::pair<double, double> &point, int val) : point(Point<2>(point.first, point.second)), left(NULL), right(NULL) {}
+      KDTreeNode(const std::pair<double, double> &point, int val) : point(Point<2>(point.first, point.second)), value(val), left(NULL), right(NULL) {}
     };
 
   public:
