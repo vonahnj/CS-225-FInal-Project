@@ -4,13 +4,8 @@ encounters
 
 # Ignore objects
 .vscode
-.objs/cs225/catch/*.d
 .objs/cs225/catch/*.o
-.objs/cs225/lodepng/*.d
 .objs/cs225/lodepng/*.o
-.objs/cs225/*.d
 .objs/cs225/*.o
 .objs/tests/*.o
-.objs/tests/*.d
 .objs/*.o
-.objs/*.d
