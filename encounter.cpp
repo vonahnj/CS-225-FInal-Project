@@ -58,7 +58,16 @@ namespace encounters {
         } else if (first.month != second.month) {
             return first.month < second.month;
         } 
-        return first.month < second.month;
+        return first.day < second.day;
+    }
+
+    bool operator>(const date &first, const date &second) {
+        if (first.year != second.year) {
+            return first.year > second.year;
+        } else if (first.month != second.month) {
+            return first.month > second.month;
+        } 
+        return first.day > second.day;
     }
 
     bool operator==(const encounter::edge &first, const encounter::edge &second) {
