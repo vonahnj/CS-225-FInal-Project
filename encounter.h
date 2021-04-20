@@ -16,13 +16,12 @@ namespace encounters {
 
     struct encounter {
         struct edge {
-            encounter &start;
-            encounter &end;
+            int start_id;
+            int end_id;
             double dist;
 
-            edge(encounter &s, encounter &e) : start(s), end(e), dist(0) {}
-            edge(encounter &s, encounter &e, double d) : start(s), end(e), dist(d) {}
-            bool operator<(const encounter::edge &other) { return dist < other.dist; }
+            edge(int start, int end) : start_id(start), end_id(end), dist(0) {}
+            edge(int start, int end, double d) : start_id(start), end_id(end), dist(d) {}
         };
 
         date time;
@@ -42,9 +41,13 @@ namespace encounters {
     bool operator==(const date &first, const date &second);
     bool operator!=(const date &first, const date &second);
     bool operator==(const encounter::edge &first, const encounter::edge &second);
+    bool operator!=(const encounter::edge &first, const encounter::edge &second);
+    bool operator<(const encounter::edge &first, const encounter::edge &second);
+    bool operator>(const encounter::edge &first, const encounter::edge &second);
 
     bool operator==(const encounter &first, const encounter &second);
     double dist(const date &first, const date &second);
     double dist(const encounter &first, const encounter &second);
+    double dist(const std::pair<double, double> &first, const std::pair<double, double> &second);
 
 } // namespace encounters

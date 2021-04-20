@@ -1,5 +1,6 @@
 #include "encounter.h"
 #include <math.h>
+#include <iostream>
 
 namespace encounters {
     double dist(const date &first, const date &second) {
@@ -23,11 +24,15 @@ namespace encounters {
     }
 
     double dist(const encounter &first, const encounter &second) {
+        return dist(first.location, second.location);
+    }
+
+    double dist(const std::pair<double, double> &first, const std::pair<double, double> &second) {
         // Implementing Haversine formula to determine Great Circle distance
-        double lat1 = first.location.first;
-        double lat2 = second.location.first;
-        double lon1 = first.location.second;
-        double lon2 = second.location.second;
+        double lat1 = first.first;
+        double lat2 = second.first;
+        double lon1 = first.second;
+        double lon2 = second.second;
 
         double dLat = (lat2 - lat1) *
                       M_PI / 180.0;
@@ -57,8 +62,21 @@ namespace encounters {
     }
 
     bool operator==(const encounter::edge &first, const encounter::edge &second) {
-        return first.dist == second.dist && &(first.start) == &(second.start) && &(first.end) == &(second.end);
+        return first.dist == second.dist && 
+               std::min(first.start_id, first.end_id) == std::min(second.start_id, second.end_id) &&
+               std::max(first.start_id, first.end_id) == std::max(second.start_id, second.end_id);
+    }
 
+    bool operator!=(const encounter::edge &first, const encounter::edge &second) {
+        return !(first == second);
+    }
+
+    bool operator<(const encounter::edge &first, const encounter::edge &second) {
+        return first.dist < second.dist;
+    }
+
+    bool operator>(const encounter::edge &first, const encounter::edge &second) {
+        return first.dist > second.dist;
     }
 
     bool operator==(const date &first, const date &second) {
@@ -70,21 +88,42 @@ namespace encounters {
     }
 
     bool operator==(const encounter &first, const encounter &second) {
-        if (first.time != second.time || first.location != second.location) {
+        if (first.time != second.time || first.location != second.location ||
+            first.loc_neighbors.size() != second.loc_neighbors.size() ||
+            first.time_neighbors.size() != second.time_neighbors.size() ||
+            first.id != second.id) {
             return false;
         }
 
-        if (first.loc_neighbors != second.loc_neighbors) {
-            return false;
+        std::vector<encounter::edge> firstNeighbors = first.loc_neighbors;
+        sort(firstNeighbors.begin(), firstNeighbors.end());
+        std::vector<encounter::edge> secondNeighbors = second.loc_neighbors;
+        sort(secondNeighbors.begin(), secondNeighbors.end());
+
+        for (size_t i = 0; i < firstNeighbors.size(); i++) {
+            if (firstNeighbors.at(i) != secondNeighbors.at(i)) {
+                return false;
+            }
         }
 
-        return first.time_neighbors != second.time_neighbors;
+        firstNeighbors = first.time_neighbors;
+        sort(firstNeighbors.begin(), firstNeighbors.end());
+        secondNeighbors = second.time_neighbors;
+        sort(secondNeighbors.begin(), secondNeighbors.end());
+
+        for (size_t i = 0; i < firstNeighbors.size(); i++) {
+            if (firstNeighbors.at(i) != secondNeighbors.at(i)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     std::ostream & operator<<(std::ostream &out, const date &d) {
         return out<<d.month<<'/'<<d.day<<'/'<<d.year;
     }
     std::ostream & operator<<(std::ostream &out, const encounter &e) {
-        return out<<e.time<<"\t("<<e.location.first<<", "<<e.location.second<<")";
+        return out<<e.id<<'\t'<<e.time<<"\t("<<e.location.first<<", "<<e.location.second<<")";
     }
 }

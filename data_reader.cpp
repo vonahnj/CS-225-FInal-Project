@@ -19,8 +19,6 @@ namespace encounters {
         fin.open(file_name, std::ios::in);
 
         vector<encounter*> nodes;
-        
-        size_t withinTime = 0;
         size_t idNum = 0;
         
         while (fin.good()) {
@@ -53,19 +51,9 @@ namespace encounters {
             
             // Move withinTime pointer to point to the oldest record within the time threshold
             bool updated = false;
-            while (!updated && withinTime < nodes.size() - 1) {
-                if (dist(nodes.at(withinTime)->time, nodes.back()->time) > TIME_THRESHOLD ) {
-                    withinTime++;
-                } else updated = true;
-            }
-
-            // Link all records to older records within the time threshold
-            for (size_t index = withinTime; index < nodes.size() - 1; index++) {
-                linkTimewise(nodes, index, nodes.size() - 1);
-            }
-            
         }
 
+        linkNodesTimeWise(nodes);
         linkNodesDistanceWise(nodes);
 
         return nodes;
@@ -110,19 +98,26 @@ namespace encounters {
                 double locDist = dist(first, second);
 
                 if (locDist < DISTANCE_THRESHOLD) {
-                    first.time_neighbors.push_back(encounter::edge(first, second, locDist));
-                    second.time_neighbors.push_back(encounter::edge(second, first, locDist));
+                    first.loc_neighbors.push_back(encounter::edge(first.id, second.id, locDist));
+                    second.loc_neighbors.push_back(encounter::edge(second.id, first.id, locDist));
                 }
             }
         }
     }
 
-    void DataReader::linkTimewise(vector<encounter*> &nodes, size_t firstIndex, size_t secondIndex) {
-        encounter *first = nodes.at(firstIndex);
-        encounter *second = nodes.at(secondIndex);
-        double timeDist = dist(first->time, second->time);
+    void DataReader::linkNodesTimeWise(vector<encounter*> &nodes) {
+        for (size_t f_index = 0; f_index < nodes.size(); f_index++) {
+            encounter &first = *nodes.at(f_index);
 
-        first->time_neighbors.push_back(encounter::edge(*first, *second, timeDist));
-        second->time_neighbors.push_back(encounter::edge(*second, *first, timeDist));
+            for (size_t l_index = f_index + 1; l_index < nodes.size(); l_index++) {
+                encounter &second = *nodes.at(l_index);
+                double timeDist = dist(first.time, second.time);
+
+                if (timeDist < TIME_THRESHOLD) {
+                    first.time_neighbors.push_back(encounter::edge(first.id, second.id, timeDist));
+                    second.time_neighbors.push_back(encounter::edge(second.id, first.id, timeDist));
+                }
+            }
+        }
     }
 } // namespace encounters

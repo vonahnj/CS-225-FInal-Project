@@ -1,6 +1,7 @@
 #include "graph.h"
 #include "encounter.h"
 #include "data_reader.h"
+#include "kd_tree/kdtree.h"
 
 #include <vector>
 #include <string>
@@ -15,8 +16,14 @@ namespace encounters {
     Graph::Graph() {}
 
     Graph::Graph(const std::string &file_name) {
-        vector<encounter*> encounters = DataReader::readFromFile(file_name);
-        nodes_ = KDTree(encounters);
+        nodes_ = DataReader::readFromFile(file_name);
+        locations_ = KDTree(nodes_);
+    }
+
+    Graph::~Graph() {
+        for (size_t i = 0; i < nodes_.size(); i++) {
+            delete nodes_.at(i);
+        }
     }
     
 } // namespace encounters

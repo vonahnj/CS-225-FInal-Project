@@ -2,15 +2,17 @@
 
 #include <string>
 #include "encounter.h"
-#include "kdtree.h"
+#include "kd_tree/kdtree.h"
 
 namespace encounters {
     class Graph {        
         public: 
         Graph();
+        ~Graph();
         Graph(const std::string &file_name);
 
         private:
-        KDTree nodes_;
+        KDTree locations_;
+        vector<encounter*> nodes_;
     };
 } // namespace encounters

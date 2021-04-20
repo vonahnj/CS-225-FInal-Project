@@ -26,6 +26,6 @@ namespace encounters {
         static date parseDate(const std::string &dateStr);
         static double parseDouble(const std::string &doubleStr);
         static void linkNodesDistanceWise(vector<encounter*> &nodes);
-        static void linkTimewise(vector<encounter*> &nodes, size_t firstIndex, size_t secondIndex);
+        static void linkNodesTimeWise(vector<encounter*> &nodes);
     };
 } // namespace encounters
