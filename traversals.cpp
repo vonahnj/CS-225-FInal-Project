@@ -10,6 +10,7 @@ namespace encounters {
   vector<encounter*> Traversals::getBFSTraversal(vector<encounter*> map, int start) {
     queue<encounter*> bfs_queue;
     vector<encounter*> bfs_traversal;
+    vector<int> visited;
 
     // start the traversal at the starting location (map[start])
     bfs_queue.push(map[start]);
@@ -18,10 +19,11 @@ namespace encounters {
       encounter* next_encounter = bfs_queue.front();
       bfs_queue.pop();
 
-      if (std::find(bfs_traversal.begin(), bfs_traversal.end(), next_encounter) != bfs_traversal.end()) {
+      if (std::find(visited.begin(), visited.end(), next_encounter->id) != visited.end()) {
         continue; // skip already visited points
       }
       bfs_traversal.push_back(next_encounter);
+      visited.push_back(next_encounter->id);
 
       // for now we traverse both time/loc neighbors
       for (encounter::edge time_neighbor : next_encounter->time_neighbors) {
@@ -39,6 +41,7 @@ namespace encounters {
   vector<encounter*> Traversals::getDFSTraversal(vector<encounter*> map, int start) {
     queue<encounter*> dfs_stack;
     vector<encounter*> dfs_traversal;
+    vector<int> visited;
 
     dfs_stack.push(map[start]);
 
@@ -46,10 +49,11 @@ namespace encounters {
       encounter* next_encounter = dfs_stack.front();
       dfs_stack.pop();
 
-      if (std::find(dfs_traversal.begin(), dfs_traversal.end(), next_encounter) != dfs_traversal.end()) {
+      if (std::find(visited.begin(), visited.end(), next_encounter->id) != visited.end()) {
         continue; // skip already visited points
       }
       dfs_traversal.push_back(next_encounter);
+      visited.push_back(next_encounter->id);
 
       // for now we traverse both time/loc neighbors
       for (encounter::edge time_neighbor : next_encounter->time_neighbors) {

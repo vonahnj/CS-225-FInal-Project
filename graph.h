@@ -1,12 +1,51 @@
 #pragma once
 
 #include <string>
+#include <list>
+
 #include "encounter.h"
 #include "kdtree/kdtree.h"
 
 namespace encounters {
     class Graph {        
         public: 
+
+        class traversal {
+            public: 
+
+            class iterator : public std::iterator<std::forward_iterator_tag, encounter> {
+                public: 
+                iterator() {};
+                iterator(const std::list<encounter*> &desiredOrder);
+                iterator(const iterator &other);
+
+                const iterator& operator=(const iterator& rhs);
+                const iterator& operator++();
+                const encounter* operator*();
+                const encounter& operator->();
+                virtual bool operator==(const iterator& rhs) const;
+                virtual bool operator!=(const iterator& rhs) const;
+                
+                private: 
+                std::list<encounter*> order;
+            };
+            virtual Graph::traversal::iterator begin();
+            virtual Graph::traversal::iterator end();
+
+            protected: 
+            std::list<encounter*> master_;
+        };
+
+        class BFS : public traversal {
+            public: 
+            BFS(const Graph &g, const std::pair<double, double> &start);
+        };
+
+        class DFS : public traversal {
+            public: 
+            DFS(const Graph &g, const std::pair<double, double> &start);
+        };
+
         /**
          * Constructs an empy Graph
          */
@@ -17,6 +56,10 @@ namespace encounters {
          * @param file_name the path to the csv file holding the graph data
          */
         Graph(const std::string &file_name);
+
+        int findNearestNeighbor(const std::pair<double, double> &location) const;
+
+        const encounter* getNode(int id) const;
 
         /**
          * Deallocates the memory to prevent memory leaks
