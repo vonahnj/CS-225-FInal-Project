@@ -14,6 +14,8 @@
 namespace encounters {
     using std::vector;
 
+    // Initialize functions
+
     Graph::Graph() {}
 
     Graph::Graph(const std::string &file_name) {
@@ -27,6 +29,8 @@ namespace encounters {
         }
     }
 
+    // Access Functions
+
     int Graph::findNearestNeighbor(const std::pair<double, double> &location) const {
         return locations_.findNearestNeighbor(Point<2>(location.first, location.second));
     }
@@ -36,13 +40,7 @@ namespace encounters {
         return nodes_.at(id);
     }
 
-    Graph::traversal::iterator::iterator(const iterator &other) {
-        order = other.order;
-    }
-    
-    Graph::traversal::iterator::iterator(const std::list<encounter*> &desiredOrder) {
-        order = desiredOrder;
-    }
+    // Iterator Functions: 
 
     const Graph::traversal::iterator& Graph::traversal::iterator::operator=(const iterator& rhs) {
         if (this != &rhs) {
@@ -53,7 +51,7 @@ namespace encounters {
     
     const Graph::traversal::iterator& Graph::traversal::iterator::operator++() {
         if (!order.empty()) {
-            order.pop_front();
+            order.pop();
         }
         return *this;
     }
@@ -78,8 +76,7 @@ namespace encounters {
     }
 
     Graph::traversal::iterator Graph::traversal::end() {
-        Graph::traversal::iterator it;
-        return it;
+        return Graph::traversal::iterator();
     }
 
     Graph::traversal::iterator Graph::traversal::begin() {
@@ -88,22 +85,12 @@ namespace encounters {
 
     Graph::BFS::BFS(const Graph &g, const std::pair<double, double> &start) {
         int startIndex = g.findNearestNeighbor(start);
-        vector<encounter*> traversal = Traversals::getBFSTraversal(g.nodes_, startIndex);
-        
-        while(!traversal.empty()) {
-            master_.push_front(traversal.back());
-            traversal.pop_back();
-        }
+        master_ = Traversals::getBFSTraversal(g.nodes_, startIndex);
     }
 
     Graph::DFS::DFS(const Graph &g, const std::pair<double, double> &start) {
         int startIndex = g.findNearestNeighbor(start);
-        vector<encounter*> traversal = Traversals::getDFSTraversal(g.nodes_, startIndex);
-        
-        while(!traversal.empty()) {
-            master_.push_front(traversal.back());
-            traversal.pop_back();
-        }
+        master_  = Traversals::getDFSTraversal(g.nodes_, startIndex);
     }
     
 } // namespace encounters

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <list>
+#include <queue>
 
 #include "encounter.h"
 #include "kdtree/kdtree.h"
@@ -16,8 +17,8 @@ namespace encounters {
             class iterator : public std::iterator<std::forward_iterator_tag, encounter> {
                 public: 
                 iterator() {};
-                iterator(const std::list<encounter*> &desiredOrder);
-                iterator(const iterator &other);
+                iterator(const iterator &other) : order(other.order) {}
+                iterator(const std::queue<encounter*> &desiredOrder) : order(desiredOrder) {}
 
                 const iterator& operator=(const iterator& rhs);
                 const iterator& operator++();
@@ -27,13 +28,13 @@ namespace encounters {
                 virtual bool operator!=(const iterator& rhs) const;
                 
                 private: 
-                std::list<encounter*> order;
+                std::queue<encounter*> order;
             };
             virtual Graph::traversal::iterator begin();
             virtual Graph::traversal::iterator end();
 
             protected: 
-            std::list<encounter*> master_;
+            std::queue<encounter*> master_;
         };
 
         class BFS : public traversal {
