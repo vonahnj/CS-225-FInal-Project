@@ -13,7 +13,6 @@ void destroyEncounterVec2(vector<encounter*> &vec) {
         delete vec.at(i);
     }
 }
-
 TEST_CASE("Test smallerDimVal", "[kdtree]") {
     KDTree tree;
     Point<2> a(1, 2);
@@ -23,7 +22,7 @@ TEST_CASE("Test smallerDimVal", "[kdtree]") {
     REQUIRE( tree.smallerDimVal(a, b, 1) == true );
 }
 
-TEST_CASE("Test findNearestNeighbor 1", "[kdtree]") {
+TEST_CASE("Test shouldReplace", "[kdtree]") {
     KDTree tree;
 
     Point<2> target(1, 3);
@@ -40,7 +39,7 @@ TEST_CASE("Test findNearestNeighbor 1", "[kdtree]") {
     
 }
 
-TEST_CASE("Test findNearestNeighbor 2", "[kdtree]") {
+TEST_CASE("Test findNearestNeighbor", "[kdtree]") {
     double coords[6][2] = {
         {-15, 7}, {6, 7}, {-13, -1},
         {-5, 0}, {14, -3}, {14, 2}
@@ -50,7 +49,7 @@ TEST_CASE("Test findNearestNeighbor 2", "[kdtree]") {
 
     vector<encounter*> points;
     for (int i = 0; i < 6; ++i){
-        points.push_back(new encounter(date(), coords[i][0], coords[i][1], i));
+        points.push_back(new encounter(coords[i][0], coords[i][1], i));
     }
     Point<2> target(targetCoords);
     int expected = 2;
@@ -61,4 +60,12 @@ TEST_CASE("Test findNearestNeighbor 2", "[kdtree]") {
     REQUIRE( tree.findNearestNeighbor(target) == expected );
 
     destroyEncounterVec2(points);
+}
+
+
+
+TEST_CASE("Test findNearestNeighnor on Empty", "[kdtree]") {
+    KDTree tree;
+
+    REQUIRE( tree.findNearestNeighbor(Point<2>(5, 5)) == -1 );
 }

@@ -39,8 +39,8 @@ bool KDTree::shouldReplace(const Point<2>& target,
 
 KDTree::KDTree(const vector<encounter*> &newPoints) {
     if (newPoints.size() != 0) {
+      visited = std::vector<bool>(newPoints.size(), false);
       addSection(root, newPoints, 0, newPoints.size() - 1, 0);
-      size = newPoints.size();
     } else {
       root = NULL;
       size = 0;
@@ -101,6 +101,8 @@ KDTree::~KDTree() {
 }
 
 int KDTree::findNearestNeighbor(const Point<2>& query) const {
+  if (root == NULL) return -1;
+
   KDTreeNode* nearest = findNearestNeighbor(root, query, 0);
   if (nearest) {
     return nearest->value;
@@ -148,7 +150,8 @@ KDTree::KDTreeNode* KDTree::findNearestNeighbor(KDTreeNode* current, const Point
 void KDTree::addSection(KDTreeNode *&subroot, const vector<encounter*>& newPoints, int start, int end, int level) {
     if (start == end) {
       subroot = new KDTreeNode(newPoints.at(start)->location, newPoints.at(start)->id);
-
+      
+      size++;
       return;
     } else if (start > end) {
       return;
@@ -157,6 +160,7 @@ void KDTree::addSection(KDTreeNode *&subroot, const vector<encounter*>& newPoint
     vector<encounter*> orderedPoints = sort(newPoints, start, end, level);
     size_t mid = (orderedPoints.size() - 1)/2;
     subroot = new KDTreeNode(orderedPoints.at(mid)->location, orderedPoints.at(mid)->id);
+    size++;
 
     if (mid != 0 ) {
       addSection(subroot->left, orderedPoints, 0, mid -1, level+1);
@@ -167,12 +171,14 @@ void KDTree::addSection(KDTreeNode *&subroot, const vector<encounter*>& newPoint
 
 void KDTree::_copy(const KDTree &other) {
   vector<encounter*> newPoints;
+  
+  _copy(other.root, newPoints);
+
   size = newPoints.size();
   if (newPoints.size() == 0) {
     root = NULL;
     return;
   }
-  _copy(other.root, newPoints);
   addSection(this->root, newPoints, 0, newPoints.size() - 1, 0);
 }
 
@@ -182,7 +188,7 @@ void KDTree::_copy(const KDTreeNode *current, vector<encounter*>& newPoints) con
   }
   
   _copy(current->left, newPoints);
-  newPoints.push_back(new encounter(date(), current->point[0], current->point[1], current->value));
+  newPoints.push_back(new encounter(current->point[0], current->point[1], current->value));
   _copy(current->right, newPoints);
 }
 

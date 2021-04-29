@@ -13,14 +13,9 @@ void destroyEncounterVec1(vector<encounter*> &vec) {
     }
 }
 
-void linkTime(encounter &first, encounter &second) {
-    first.time_neighbors.push_back(encounter::edge(first.id, second.id, dist(first.time, second.time)));
-    second.time_neighbors.push_back(encounter::edge(second.id, first.id, dist(first.time, second.time)));
-}
-
 void linkDist(encounter &first, encounter &second) {
-    first.loc_neighbors.push_back(encounter::edge(first.id, second.id, dist(first, second)));
-    second.loc_neighbors.push_back(encounter::edge(second.id, first.id, dist(first, second)));
+    first.neighbors.push_back(encounter::edge(first.id, second.id, dist(first, second)));
+    second.neighbors.push_back(encounter::edge(second.id, first.id, dist(first, second)));
 }
 
 TEST_CASE("Test no data points", "[data_reader]") {
@@ -30,13 +25,11 @@ TEST_CASE("Test no data points", "[data_reader]") {
 
 TEST_CASE("Test few data points", "[data_reader]") {
     vector<encounter> expected = {
-        encounter(date(10, 10, 1949), 29.8830556,-97.9411111, 0), 
-        encounter(date(11, 10, 1949), 29.8830556,-97.941112, 1), 
-        encounter(date(10, 10, 1956), 28.9783333,-96.6458333, 2), 
-        encounter(date(1, 1, 2000), 29.8972346,-97.9074231, 3), 
+        encounter(29.8830556,-97.9411111, 0), 
+        encounter(29.8830556,-97.941112, 1), 
+        encounter(28.9783333,-96.6458333, 2), 
+        encounter(29.8972346,-97.9074231, 3), 
     };
-
-    linkTime(expected.at(0), expected.at(1));
 
     linkDist(expected.at(0), expected.at(1));
     linkDist(expected.at(0), expected.at(3));
@@ -56,8 +49,8 @@ TEST_CASE("Test few data points", "[data_reader]") {
 TEST_CASE("Test many data points", "[data_reader]") {
     
     vector<encounter*> result = DataReader::readFromFile("tests/test_data/large_data.csv");
-    int numRecords = 129;
-    int numErroneousRecords = 7;
+    int numRecords = 324;
+    int numErroneousRecords = 12;
 
     REQUIRE(result.size() == numRecords - numErroneousRecords);
 

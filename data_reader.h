@@ -12,12 +12,10 @@ namespace encounters {
         public: 
         // Information about the structure of the csv file
         static const size_t NUM_COLUMNS = 11;
-        static const size_t DATE_COLUMN = 0;
         static const size_t STATE_COLUMN = 2;
         static const size_t LATITUDE_COLUMN = 9;
         static const size_t LONGITUDE_COLUMN = 10;
 
-        static const double TIME_THRESHOLD; // The time (in days) within two encounters must fall to be time neighbors
         static const double DISTANCE_THRESHOLD; // The distance (in kilometers) within two encounters must fall to be location neighbors
         static const string DESIRED_STATE;
 
@@ -39,13 +37,6 @@ namespace encounters {
         static vector<encounter*> readFromFile(const string &fileName);
         
         private:
-        /**
-         * Converts string into date struct
-         * @param dateStr the date in 'MM/DD/YYYY 00:00' form
-         * @return a struct holding the month, day, and year defined in the dateStr; 
-         *         if the string does not hold a valid date, the method returns the default date
-         */
-        static date parseDate(const std::string &dateStr);
 
         /**
          * Converts string into date struct
@@ -59,13 +50,6 @@ namespace encounters {
          * within a given radius of each other
          * @param nodes the nodes to be linked
          */
-        static void linkNodesDistanceWise(vector<encounter*> &nodes);
-
-        /**
-         * Links nodes with time edges, making them time neighbors, if they fall 
-         * within a given time range of each other
-         * @param nodes the nodes to be linked
-         */
-        static void linkNodesTimeWise(vector<encounter*> &nodes);
+        static void linkNodes(vector<encounter*> &nodes);
     };
 } // namespace encounters

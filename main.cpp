@@ -15,6 +15,7 @@ using namespace encounters;
 int main()
 {
     std::cout << "Hello World!" << std::endl;
-    Graph("data.csv");
+    Graph graph("data.csv");
+    Graph::DFS dfs(graph, std::pair<double, double>(36.7477778,-119.7713889));
     return 0;
 }

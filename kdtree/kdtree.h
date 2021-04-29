@@ -256,6 +256,7 @@ class KDTree
     /** Internal representation, root and size **/
     KDTreeNode *root;
     size_t size;
+    std::vector<bool>visited;
 
     /** Helper function for grading */
     int getPrintData(KDTreeNode * subroot) const;
