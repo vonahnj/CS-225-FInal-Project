@@ -3,6 +3,7 @@
 #include "traversals.h"
 #include "data_reader.h"
 #include "kdtree/kdtree.h"
+#include "heap/heap.h"
 
 #include <vector>
 #include <string>
@@ -13,6 +14,7 @@
 
 namespace encounters {
     using std::vector;
+    using std::list;
 
     // Initialize functions
 
@@ -93,12 +95,55 @@ namespace encounters {
         master_  = Traversals::getDFSTraversal(g.nodes_, startIndex);
     }
 
-    vector<encounter*> Graph::getShortestPathDijk(int start, int end) {
-        return vector<encounter*>();
+    std::list<encounter*> Graph::getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end) {
+        int startIndex = findNearestNeighbor(start);
+        int endIndex = findNearestNeighbor(end);
+
+        vector<int> tree = getSpanningTreeDijk(startIndex);
+        if (tree.at(endIndex) == -2) return list<encounter*>();
+
+        int currentIndex = tree.at(endIndex);
+        std::list<encounter*> path;
+        while (currentIndex >= 0) {
+            path.push_front(nodes_.at(currentIndex));
+            currentIndex = tree.at(currentIndex);
+        }
+
+        return path;
     }
     
-    vector<encounter*> Graph::getSpanningTreeDijk(int start) {
-        return vector<encounter*>();
+    vector<int> Graph::getSpanningTreeDijk(int start) {
+        vector<int> parents(nodes_.size(), -2);
+        vector<double> distance(nodes_.size(), INFINITY);
+        heap<encounter::edge> min_heap(nodes_.at(start)->neighbors);
+        vector<bool> addedToGraph(nodes_.size(), false);
+
+        parents.at(start) = -1;
+        distance.at(start) = 0;
+        addedToGraph.at(start) = true;
+
+        while (!min_heap.empty()) {
+            // Get next shortest edge not added to graph
+            encounter::edge edge = min_heap.pop();
+            while (addedToGraph.at(edge.end_id)) {
+                edge = min_heap.pop();
+            }
+            addedToGraph.at(edge.end_id) = true;
+
+            for (encounter::edge &adj_edge : nodes_.at(edge.end_id)->neighbors) {
+                // Parse new frontier edges
+                if (!addedToGraph.at(adj_edge.end_id)) {
+                    // If shorter edge found, update heap and records
+                    if (distance.at(adj_edge.start_id) + adj_edge.dist < distance.at(adj_edge.end_id)) {
+                        distance.at(adj_edge.end_id) = distance.at(adj_edge.start_id) + adj_edge.dist;
+                        parents.at(adj_edge.end_id) = adj_edge.start_id;
+                        min_heap.push(adj_edge);
+                    }
+                }
+            }
+        }
+
+        return parents;
     }
     
 } // namespace encounters

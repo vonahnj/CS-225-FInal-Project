@@ -50,6 +50,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/tests
 # final project specific
 	@mkdir -p $(OBJS_DIR)/kdtree
+	@mkdir -p $(OBJS_DIR)/heap
 # mp_traversal specific
 	@mkdir -p $(OBJS_DIR)/imageTraversal
 	@mkdir -p $(OBJS_DIR)/colorPicker

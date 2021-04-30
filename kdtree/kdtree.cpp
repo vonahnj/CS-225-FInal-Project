@@ -180,6 +180,10 @@ void KDTree::_copy(const KDTree &other) {
     return;
   }
   addSection(this->root, newPoints, 0, newPoints.size() - 1, 0);
+
+  for (size_t index = 0; index < newPoints.size(); ++index){
+    delete newPoints.at(index);
+  }
 }
 
 void KDTree::_copy(const KDTreeNode *current, vector<encounter*>& newPoints) const {

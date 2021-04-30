@@ -63,8 +63,7 @@ namespace encounters {
         const encounter* getNode(int id) const;
      
         //TODO: Implement Dijkstra's Algorithm for shortest path/spanning tree
-        vector<encounter*> getShortestPathDijk(int start, int end);
-        vector<encounter*> getSpanningTreeDijk(int start);
+        std::list<encounter*> getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end);
         
         /**
          * Deallocates the memory to prevent memory leaks
@@ -74,5 +73,7 @@ namespace encounters {
         private:
         KDTree locations_;
         vector<encounter*> nodes_;
+
+        vector<int> getSpanningTreeDijk(int start);
     };
 } // namespace encounters
