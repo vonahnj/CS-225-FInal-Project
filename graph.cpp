@@ -102,8 +102,10 @@ namespace encounters {
         vector<int> tree = getSpanningTreeDijk(startIndex);
         if (tree.at(endIndex) == -2) return list<encounter*>();
 
-        int currentIndex = tree.at(endIndex);
         std::list<encounter*> path;
+        path.push_front(nodes_.at(endIndex));
+        int currentIndex = tree.at(endIndex);
+
         while (currentIndex >= 0) {
             path.push_front(nodes_.at(currentIndex));
             currentIndex = tree.at(currentIndex);
