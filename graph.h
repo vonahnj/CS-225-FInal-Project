@@ -61,7 +61,11 @@ namespace encounters {
         int findNearestNeighbor(const std::pair<double, double> &location) const;
 
         const encounter* getNode(int id) const;
-
+     
+        //TODO: Implement Dijkstra's Algorithm for shortest path/spanning tree
+        vector<encounter*> getShortestPathDijk(int start, int end);
+        vector<encounter*> getSpanningTreeDijk(int start);
+        
         /**
          * Deallocates the memory to prevent memory leaks
          */

@@ -92,5 +92,13 @@ namespace encounters {
         int startIndex = g.findNearestNeighbor(start);
         master_  = Traversals::getDFSTraversal(g.nodes_, startIndex);
     }
+
+    vector<encounter*> Graph::getShortestPathDijk(int start, int end) {
+        return vector<encounter*>();
+    }
+    
+    vector<encounter*> Graph::getSpanningTreeDijk(int start) {
+        return vector<encounter*>();
+    }
     
 } // namespace encounters
