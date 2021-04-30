@@ -77,6 +77,7 @@ namespace encounters {
                     second.neighbors.push_back(encounter::edge(second.id, first.id, distance));
                 }
             }
+            std::sort(first.neighbors.begin(), first.neighbors.end());
         }
     }
 } // namespace encounters

@@ -54,7 +54,6 @@ namespace encounters {
 
     // start the traversal at the starting location (map[start])
     DFS(map, start, dfs_traversal, visited);
-    visited.at(start) = true;
     
     // Collect all connected components not connected to start
     for (size_t index = 0; index < visited.size(); ++index) {
@@ -68,22 +67,11 @@ namespace encounters {
   }
 
   void Traversals::DFS(vector<encounter*> &map, int start, queue<encounter*> &dfs_traversal, vector<bool> &visited) {
-    stack<encounter*> dfs_stack;
-    dfs_stack.push(map[start]);
-
-    while (!dfs_stack.empty()) {
-      encounter* next_encounter = dfs_stack.top();
-      dfs_stack.pop();
-
-      if (visited.at(next_encounter->id)) {
-        continue; // skip already visited points
-      }
-      dfs_traversal.push(next_encounter);
-      visited.at(next_encounter->id) = true;
-
-      // for now we traverse both time/loc neighbors
-      for (encounter::edge neighbor : next_encounter->neighbors) {
-        dfs_stack.push(map[neighbor.end_id]);
+    visited.at(start) = true;
+    dfs_traversal.push(map[start]);
+    for (encounter::edge &edge : map.at(start)->neighbors) {
+      if (!visited.at(edge.end_id)) {
+        DFS(map, edge.end_id, dfs_traversal, visited);
       }
     }
   }
