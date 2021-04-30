@@ -43,11 +43,33 @@ namespace encounters {
     }
 
     bool operator<(const encounter::edge &first, const encounter::edge &second) {
-        return first.dist < second.dist;
+        if (first.dist != second.dist) {
+            return first.dist < second.dist;
+        } 
+        
+        size_t firstMin = std::min(first.start_id, first.end_id);
+        size_t secondMin = std::min(second.start_id, second.end_id);
+        if (firstMin != secondMin) {
+            return firstMin < secondMin;
+        }
+
+        size_t firstMax = std::max(first.start_id, first.end_id);
+        size_t secondMax = std::max(second.start_id, second.end_id);
+        return firstMax < secondMax;
     }
 
     bool operator>(const encounter::edge &first, const encounter::edge &second) {
-        return first.dist > second.dist;
+        if (first.dist != second.dist) return first.dist > second.dist;
+
+        size_t firstMin = std::min(first.start_id, first.end_id);
+        size_t secondMin = std::min(second.start_id, second.end_id);
+        if (firstMin != secondMin) {
+            return firstMin > secondMin;
+        }
+
+        size_t firstMax = std::max(first.start_id, first.end_id);
+        size_t secondMax = std::max(second.start_id, second.end_id);
+        return firstMax > secondMax;
     }
 
     bool operator==(const encounter &first, const encounter &second) {
