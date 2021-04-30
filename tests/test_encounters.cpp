@@ -12,3 +12,31 @@ TEST_CASE("Test distance between two places") {
 
     REQUIRE(round(dist(one, two)) == 2923);
 }
+
+TEST_CASE("Test operations for edges") {
+    encounter::edge first = encounter::edge(1, 2, 3);
+    encounter::edge second = encounter::edge(1, 2, 3);
+    encounter::edge third = encounter::edge(1, 2, 0);
+    REQUIRE(first == second); 
+    REQUIRE(first != third);
+    REQUIRE(first > third);
+    REQUIRE(third < second);
+}
+
+TEST_CASE("Test == for encounters") {
+    encounter enc1 = encounter(3, 4, 2);
+    encounter enc2 = encounter(3, 4, 2);
+    encounter::edge first = encounter::edge(1, 2, 1);
+    encounter::edge second = encounter::edge(1, 3, 3);
+    encounter::edge third = encounter::edge(1, 1, 0);
+
+    enc1.neighbors.push_back(first);
+    enc1.neighbors.push_back(second);
+    enc1.neighbors.push_back(third);
+
+    enc2.neighbors.push_back(third);
+    enc2.neighbors.push_back(first);
+    enc2.neighbors.push_back(second);
+
+    REQUIRE(enc1 == enc2);
+}
