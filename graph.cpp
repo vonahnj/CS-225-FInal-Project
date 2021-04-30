@@ -10,7 +10,7 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
-
+#include <math.h>
 
 namespace encounters {
     using std::vector;
