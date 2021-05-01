@@ -14,9 +14,11 @@ namespace encounters {
     const string DataReader::DESIRED_STATE = "il";
 
     vector<encounter*> DataReader::readFromFile(const string &file_name) {
+        // Open file
         std::fstream fin;
         fin.open(file_name, std::ios::in);
 
+        // Initialize starting variables
         vector<encounter*> nodes;
         size_t idNum = 0;
         
@@ -44,6 +46,7 @@ namespace encounters {
                 continue;
             }
 
+            // allocate new encounter
             encounter *newEncounter = new encounter(lat, longit, idNum);
             nodes.push_back(newEncounter);
             idNum++;
@@ -53,7 +56,6 @@ namespace encounters {
         }
 
         linkNodes(nodes);
-
         return nodes;
     }
 
@@ -65,20 +67,35 @@ namespace encounters {
     }
 
     void DataReader::linkNodes(vector<encounter*> &nodes) {
+        // Check each pair of nodes
+
+        std::fstream fin;
+        fin.open("distance2.txt", std::ios::out);
+
         for (size_t f_index = 0; f_index < nodes.size(); f_index++) {
             encounter &first = *nodes.at(f_index);
 
             for (size_t l_index = f_index + 1; l_index < nodes.size(); l_index++) {
                 encounter &second = *nodes.at(l_index);
-                double distance = dist(first, second);
 
+                // Create edge if distance between first and second falls within distance threshold
+                double distance = dist(first, second);
                 if (distance < DISTANCE_THRESHOLD) {
                     first.neighbors.push_back(encounter::edge(first.id, second.id, distance));
                     second.neighbors.push_back(encounter::edge(second.id, first.id, distance));
                 }
             }
 
+            // Sort edges so they're ordered by distance, 
+            // minimum end id, and maximum end id in that order
             std::sort(first.neighbors.begin(), first.neighbors.end());
+
+            fin<<f_index<<'\t'<<"numEdges: "<<first.neighbors.size()<<'\n';
+            for (const encounter::edge &edge : first.neighbors) {
+                fin<<"\t\t"<<edge.end_id<<" dist: "<<edge.dist<<'\n';
+            }
         }
+
+        fin.close();
     }
 } // namespace encounters

@@ -1,6 +1,5 @@
 #include "traversals.h"
 
-
 namespace encounters {
   using std::vector;
   using std::queue;
@@ -8,7 +7,6 @@ namespace encounters {
 
   // in the future: add edges to show the actual traversal taking place?
   queue<encounter*> Traversals::getBFSTraversal(vector<encounter*> map, int start) {
-    
     queue<encounter*> bfs_traversal;
     vector<bool> visited(map.size(), false);
     if ((size_t)(start) >= map.size() || start < 0) start = 0;
@@ -30,19 +28,25 @@ namespace encounters {
     queue<encounter*> bfs_queue;
     bfs_queue.push(map[start]);
 
+    // Continue until there are no more nodes in the queue
     while (!bfs_queue.empty()) {
       encounter* next_encounter = bfs_queue.front();
       bfs_queue.pop();
 
+      // skip already visited points
       if (visited.at(next_encounter->id)) {
-        continue; // skip already visited points
+        continue; 
       }
+
+      // Add encounter to 
       bfs_traversal.push(next_encounter);
       visited.at(next_encounter->id) = true;
 
       // for now we traverse both time/loc neighbors
       for (encounter::edge neighbor : next_encounter->neighbors) {
-        bfs_queue.push(map[neighbor.end_id]);
+        if (!visited.at(neighbor.end_id)) {
+          bfs_queue.push(map[neighbor.end_id]);
+        }
       }
     }
   }
@@ -69,6 +73,8 @@ namespace encounters {
   void Traversals::DFS(vector<encounter*> &map, int start, queue<encounter*> &dfs_traversal, vector<bool> &visited) {
     visited.at(start) = true;
     dfs_traversal.push(map[start]);
+
+    // Visit node if not already visited
     for (encounter::edge &edge : map.at(start)->neighbors) {
       if (!visited.at(edge.end_id)) {
         DFS(map, edge.end_id, dfs_traversal, visited);

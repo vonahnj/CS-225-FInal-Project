@@ -34,9 +34,9 @@ TEST_CASE("Test == for encounters") {
     enc1.neighbors.push_back(second);
     enc1.neighbors.push_back(third);
 
-    enc2.neighbors.push_back(third);
     enc2.neighbors.push_back(first);
     enc2.neighbors.push_back(second);
+    enc2.neighbors.push_back(third);
 
     REQUIRE(enc1 == enc2);
 

@@ -42,6 +42,62 @@ namespace encounters {
         return nodes_.at(id);
     }
 
+    std::list<encounter*> Graph::getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end) {
+        int startIndex = findNearestNeighbor(start);
+        int endIndex = findNearestNeighbor(end);
+
+        // Get spanning tree
+        vector<int> tree = getSpanningTreeDijk(startIndex);
+        if (tree.at(endIndex) == -2) return list<encounter*>();
+
+        // Create path from end
+        std::list<encounter*> path;
+        path.push_front(nodes_.at(endIndex));
+        int currentIndex = tree.at(endIndex);
+
+        // Backtrack from end to begining
+        while (currentIndex >= 0) {
+            path.push_front(nodes_.at(currentIndex));
+            currentIndex = tree.at(currentIndex);
+        }
+
+        return path;
+    }
+    
+    vector<int> Graph::getSpanningTreeDijk(int start) {
+        vector<int> parents(nodes_.size(), -2);
+        vector<double> distance(nodes_.size(), INFINITY);
+        heap<encounter::edge> min_heap(nodes_.at(start)->neighbors);
+        vector<bool> addedToGraph(nodes_.size(), false);
+
+        parents.at(start) = -1;
+        distance.at(start) = 0;
+        addedToGraph.at(start) = true;
+
+        while (!min_heap.empty()) {
+            // Get next shortest edge not added to graph
+            encounter::edge edge = min_heap.pop();
+            while (addedToGraph.at(edge.end_id)) {
+                edge = min_heap.pop();
+            }
+            addedToGraph.at(edge.end_id) = true;
+
+            for (encounter::edge &adj_edge : nodes_.at(edge.end_id)->neighbors) {
+                // Parse new frontier edges
+                if (!addedToGraph.at(adj_edge.end_id)) {
+                    // If shorter edge found, update heap and records
+                    if (distance.at(adj_edge.start_id) + adj_edge.dist < distance.at(adj_edge.end_id)) {
+                        distance.at(adj_edge.end_id) = distance.at(adj_edge.start_id) + adj_edge.dist;
+                        parents.at(adj_edge.end_id) = adj_edge.start_id;
+                        min_heap.push(adj_edge);
+                    }
+                }
+            }
+        }
+
+        return parents;
+    }
+
     // Iterator Functions: 
 
     const Graph::traversal::iterator& Graph::traversal::iterator::operator=(const iterator& rhs) {
@@ -93,59 +149,6 @@ namespace encounters {
     Graph::DFS::DFS(const Graph &g, const std::pair<double, double> &start) {
         int startIndex = g.findNearestNeighbor(start);
         master_  = Traversals::getDFSTraversal(g.nodes_, startIndex);
-    }
-
-    std::list<encounter*> Graph::getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end) {
-        int startIndex = findNearestNeighbor(start);
-        int endIndex = findNearestNeighbor(end);
-
-        vector<int> tree = getSpanningTreeDijk(startIndex);
-        if (tree.at(endIndex) == -2) return list<encounter*>();
-
-        std::list<encounter*> path;
-        path.push_front(nodes_.at(endIndex));
-        int currentIndex = tree.at(endIndex);
-
-        while (currentIndex >= 0) {
-            path.push_front(nodes_.at(currentIndex));
-            currentIndex = tree.at(currentIndex);
-        }
-
-        return path;
-    }
-    
-    vector<int> Graph::getSpanningTreeDijk(int start) {
-        vector<int> parents(nodes_.size(), -2);
-        vector<double> distance(nodes_.size(), INFINITY);
-        heap<encounter::edge> min_heap(nodes_.at(start)->neighbors);
-        vector<bool> addedToGraph(nodes_.size(), false);
-
-        parents.at(start) = -1;
-        distance.at(start) = 0;
-        addedToGraph.at(start) = true;
-
-        while (!min_heap.empty()) {
-            // Get next shortest edge not added to graph
-            encounter::edge edge = min_heap.pop();
-            while (addedToGraph.at(edge.end_id)) {
-                edge = min_heap.pop();
-            }
-            addedToGraph.at(edge.end_id) = true;
-
-            for (encounter::edge &adj_edge : nodes_.at(edge.end_id)->neighbors) {
-                // Parse new frontier edges
-                if (!addedToGraph.at(adj_edge.end_id)) {
-                    // If shorter edge found, update heap and records
-                    if (distance.at(adj_edge.start_id) + adj_edge.dist < distance.at(adj_edge.end_id)) {
-                        distance.at(adj_edge.end_id) = distance.at(adj_edge.start_id) + adj_edge.dist;
-                        parents.at(adj_edge.end_id) = adj_edge.start_id;
-                        min_heap.push(adj_edge);
-                    }
-                }
-            }
-        }
-
-        return parents;
     }
     
 } // namespace encounters

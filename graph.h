@@ -11,27 +11,60 @@ namespace encounters {
     class Graph {        
         public: 
 
+        /**
+         */
         class traversal {
             public: 
-
+            /**
+             */
             class iterator : public std::iterator<std::forward_iterator_tag, encounter> {
                 public: 
-                iterator() {};
-                iterator(const iterator &other) : order(other.order) {}
-                iterator(const std::queue<encounter*> &desiredOrder) : order(desiredOrder) {}
+                /**
+                 */
+                iterator() {}; 
 
+                /**
+                 */
+                iterator(const iterator &other) : order(other.order) {}
+                 
+                /**
+                 */
+                iterator(const std::queue<encounter*> &desiredOrder) : order(desiredOrder) {}
+ 
+                /**
+                 */
                 const iterator& operator=(const iterator& rhs);
-                const iterator& operator++();
+
+                /**
+                 */
+                const iterator& operator++(); 
+
+                /**
+                 */
                 const encounter* operator*();
+                 
+                /**
+                 */
                 const encounter& operator->();
+                 
+                /**
+                 */
                 virtual bool operator==(const iterator& rhs) const;
+                 
+                /**
+                 */
                 virtual bool operator!=(const iterator& rhs) const;
                 
                 private: 
                 std::queue<encounter*> order;
             };
-            virtual Graph::traversal::iterator begin();
-            virtual Graph::traversal::iterator end();
+            /**
+             */
+            Graph::traversal::iterator begin();
+            
+            /**
+             */
+            Graph::traversal::iterator end();
 
             protected: 
             std::queue<encounter*> master_;
@@ -39,11 +72,15 @@ namespace encounters {
 
         class BFS : public traversal {
             public: 
+            /**
+             */
             BFS(const Graph &g, const std::pair<double, double> &start);
         };
 
         class DFS : public traversal {
             public: 
+            /**
+             */
             DFS(const Graph &g, const std::pair<double, double> &start);
         };
 
@@ -58,22 +95,29 @@ namespace encounters {
          */
         Graph(const std::string &file_name);
 
-        int findNearestNeighbor(const std::pair<double, double> &location) const;
-
-        const encounter* getNode(int id) const;
-     
-        //TODO: Implement Dijkstra's Algorithm for shortest path/spanning tree
-        std::list<encounter*> getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end);
-        
         /**
          * Deallocates the memory to prevent memory leaks
          */
         ~Graph();
 
+        /**
+         */
+        int findNearestNeighbor(const std::pair<double, double> &location) const;
+
+        /**
+         */
+        const encounter* getNode(int id) const;
+
+        /**
+         */
+        std::list<encounter*> getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end);
+
         private:
         KDTree locations_;
         vector<encounter*> nodes_;
 
+        /**
+         */
         vector<int> getSpanningTreeDijk(int start);
     };
 } // namespace encounters

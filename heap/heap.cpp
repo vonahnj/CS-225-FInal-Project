@@ -37,8 +37,7 @@ bool heap<T, Compare>::hasAChild(size_t currentIdx) const
 template <class T, class Compare>
 size_t heap<T, Compare>::maxPriorityChild(size_t currentIdx) const
 {
-    // @TODO Update to return the index of the child with highest priority
-    ///   as defined by higherPriority()
+    // Update to return the index of the child with highest priority as defined by higherPriority()
     if (!hasAChild(currentIdx)) {
         return 0;
     }
@@ -58,8 +57,7 @@ size_t heap<T, Compare>::maxPriorityChild(size_t currentIdx) const
 template <class T, class Compare>
 size_t heap<T, Compare>::minPriorityChild(size_t currentIdx) const
 {
-    // @TODO Update to return the index of the child with highest priority
-    ///   as defined by higherPriority()
+    // Update to return the index of the child with highest priority as defined by higherPriority()
     if (!hasAChild(currentIdx)) {
         return 0;
     }
@@ -79,7 +77,7 @@ size_t heap<T, Compare>::minPriorityChild(size_t currentIdx) const
 template <class T, class Compare>
 void heap<T, Compare>::heapifyDown(size_t currentIdx)
 {
-    // @TODO Implement the heapifyDown algorithm.
+    // Implement the heapifyDown algorithm.
     if (hasAChild(currentIdx)) {
         size_t minChildIndex = minPriorityChild(currentIdx);
         if (higherPriority(_elems.at(minChildIndex), _elems.at(currentIdx))) {
@@ -110,7 +108,7 @@ heap<T, Compare>::heap()
 template <class T, class Compare>
 heap<T, Compare>::heap(const std::vector<T>& elems) 
 {
-    // @TODO Construct a heap using the buildHeap algorithm
+    // Construct a heap using the buildHeap algorithm
     _elems.push_back(T());
     for (const T &elem : elems) {
         _elems.push_back(elem);
@@ -125,7 +123,7 @@ heap<T, Compare>::heap(const std::vector<T>& elems)
 template <class T, class Compare>
 T heap<T, Compare>::pop()
 {
-    // @TODO Remove, and return, the element with highest priority
+    // Remove, and return, the element with highest priority
     if (_elems.size() == root()) {
         return T();
     }
@@ -141,7 +139,7 @@ T heap<T, Compare>::pop()
 template <class T, class Compare>
 T heap<T, Compare>::peek() const
 {
-    // @TODO Return, but do not remove, the element with highest priority
+    // Return, but do not remove, the element with highest priority
     if (_elems.size() == root()) {
         return T();
     }
@@ -151,7 +149,7 @@ T heap<T, Compare>::peek() const
 template <class T, class Compare>
 void heap<T, Compare>::push(const T& elem)
 {
-    // @TODO Add elem to the heap
+    // Add elem to the heap
     _elems.push_back(elem);
     heapifyUp(_elems.size() - 1);
 }
@@ -159,7 +157,7 @@ void heap<T, Compare>::push(const T& elem)
 template <class T, class Compare>
 void heap<T, Compare>::updateElem(const size_t & idx, const T& elem)
 {
-    // @TODO In-place updates the value stored in the heap array at idx
+    // In-place updates the value stored in the heap array at idx
     // Corrects the heap to remain as a valid heap even after update
     if (idx < root() || idx >= _elems.size()) {
         return;
@@ -178,7 +176,7 @@ void heap<T, Compare>::updateElem(const size_t & idx, const T& elem)
 template <class T, class Compare>
 bool heap<T, Compare>::empty() const
 {
-    // @TODO Determine if the heap is empty
+    // Determine if the heap is empty
     return _elems.size() == root();
 }
 

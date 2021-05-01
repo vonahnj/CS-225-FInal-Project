@@ -5,7 +5,11 @@
 #include <utility>
 
 namespace encounters {
+    /**
+     */
     struct encounter {
+        /**
+         */
         struct edge {
             int start_id;
             int end_id;
@@ -34,8 +38,12 @@ namespace encounters {
 
     /**
      * Functions to compare edges. 
-     * if (a < b), a is longer than b
-     * if (a > b), b is longer than a
+     * (a < b) or (b > a) => 
+     *  Checks the following attributes and returns the 
+     *  comparision of the first one that is different: 
+     *      1. Distance
+     *      2. Minimum End ID
+     *      3. Maximum End ID
      * if (a == b), a connects the same nodes as b and has the same lengths
      * if (a != b), a does not connect the same nodes as b or have different lengths
      */

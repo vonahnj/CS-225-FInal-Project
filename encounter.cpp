@@ -33,6 +33,7 @@ namespace encounters {
     }
 
     bool operator==(const encounter::edge &first, const encounter::edge &second) {
+        // Compare distance, minimum end, and maximum end
         return first.dist == second.dist && 
                std::min(first.start_id, first.end_id) == std::min(second.start_id, second.end_id) &&
                std::max(first.start_id, first.end_id) == std::max(second.start_id, second.end_id);
@@ -43,49 +44,54 @@ namespace encounters {
     }
 
     bool operator<(const encounter::edge &first, const encounter::edge &second) {
+        // Compare distance if different
         if (first.dist != second.dist) {
             return first.dist < second.dist;
         } 
         
+        // Compare minimum end if different
         size_t firstMin = std::min(first.start_id, first.end_id);
         size_t secondMin = std::min(second.start_id, second.end_id);
         if (firstMin != secondMin) {
             return firstMin < secondMin;
         }
 
+        // Compare maximum end
         size_t firstMax = std::max(first.start_id, first.end_id);
         size_t secondMax = std::max(second.start_id, second.end_id);
         return firstMax < secondMax;
     }
 
     bool operator>(const encounter::edge &first, const encounter::edge &second) {
-        if (first.dist != second.dist) return first.dist > second.dist;
+        //Compare distance if different
+        if (first.dist != second.dist) {
+            return first.dist > second.dist;
+        }
 
+        // Compare a minimum end if different
         size_t firstMin = std::min(first.start_id, first.end_id);
         size_t secondMin = std::min(second.start_id, second.end_id);
         if (firstMin != secondMin) {
             return firstMin > secondMin;
         }
 
+        // Compare minimum end
         size_t firstMax = std::max(first.start_id, first.end_id);
         size_t secondMax = std::max(second.start_id, second.end_id);
         return firstMax > secondMax;
     }
 
     bool operator==(const encounter &first, const encounter &second) {
+        // Compare id, location, and number of neighbors
         if (first.location != second.location ||
             first.neighbors.size() != second.neighbors.size() ||
             first.id != second.id) {
             return false;
         }
 
-        std::vector<encounter::edge> firstNeighbors = first.neighbors;
-        sort(firstNeighbors.begin(), firstNeighbors.end());
-        std::vector<encounter::edge> secondNeighbors = second.neighbors;
-        sort(secondNeighbors.begin(), secondNeighbors.end());
-
-        for (size_t i = 0; i < firstNeighbors.size(); i++) {
-            if (firstNeighbors.at(i) != secondNeighbors.at(i)) {
+        // Compare edges
+        for (size_t i = 0; i < first.neighbors.size(); i++) {
+            if (first.neighbors.at(i) != second.neighbors.at(i)) {
                 return false;
             }
         }
