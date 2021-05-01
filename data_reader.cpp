@@ -69,9 +69,6 @@ namespace encounters {
     void DataReader::linkNodes(vector<encounter*> &nodes) {
         // Check each pair of nodes
 
-        std::fstream fin;
-        fin.open("distance2.txt", std::ios::out);
-
         for (size_t f_index = 0; f_index < nodes.size(); f_index++) {
             encounter &first = *nodes.at(f_index);
 
@@ -89,13 +86,6 @@ namespace encounters {
             // Sort edges so they're ordered by distance, 
             // minimum end id, and maximum end id in that order
             std::sort(first.neighbors.begin(), first.neighbors.end());
-
-            fin<<f_index<<'\t'<<"numEdges: "<<first.neighbors.size()<<'\n';
-            for (const encounter::edge &edge : first.neighbors) {
-                fin<<"\t\t"<<edge.end_id<<" dist: "<<edge.dist<<'\n';
-            }
         }
-
-        fin.close();
     }
 } // namespace encounters

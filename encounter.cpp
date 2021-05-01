@@ -29,7 +29,9 @@ namespace encounters {
                    cos(lat1) * cos(lat2);
         double rad = 6371;
         double c = 2 * asin(sqrt(a));
-        return abs(rad * c);
+        
+        double absolute = abs(rad * c);
+        return (int)(absolute * 10000)/10000.0;
     }
 
     bool operator==(const encounter::edge &first, const encounter::edge &second) {
