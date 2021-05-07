@@ -91,7 +91,7 @@ namespace encounters {
         while (!min_heap.empty()) {
             // Get next shortest edge not added to graph
             encounter::edge edge = min_heap.pop();
-            if (addedToGraph.at(edge.end_id)) {
+            if (addedToGraph.at(edge.end_id) || parents.at(edge.end_id) != edge.start_id) {
                 continue;
             }
             addedToGraph.at(edge.end_id) = true;
