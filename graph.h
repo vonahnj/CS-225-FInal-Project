@@ -122,5 +122,9 @@ namespace encounters {
         /**
          */
         vector<int> getSpanningTreeDijk(int start);
+
+        /**
+         */
+        std::list<encounter*> getShortestPathDijk(int startIndex, int endIndex);
     };
 } // namespace encounters

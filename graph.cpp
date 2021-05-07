@@ -42,10 +42,15 @@ namespace encounters {
         return nodes_.at(id);
     }
 
+
     std::list<encounter*> Graph::getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end) {
         int startIndex = findNearestNeighbor(start);
         int endIndex = findNearestNeighbor(end);
 
+        return getShortestPathDijk(startIndex, endIndex);
+    }
+
+    std::list<encounter*> Graph::getShortestPathDijk(int startIndex, int endIndex) {
         // Get spanning tree
         if (startIndex == -1 || endIndex == -1) return list<encounter*>();
         vector<int> tree = getSpanningTreeDijk(startIndex);
@@ -68,15 +73,16 @@ namespace encounters {
     }
     
     vector<int> Graph::getSpanningTreeDijk(int start) {
+        // Create initial values
         vector<int> parents(nodes_.size(), -2);
         vector<double> distance(nodes_.size(), INFINITY);
         heap<encounter::edge> min_heap(nodes_.at(start)->neighbors);
         vector<bool> addedToGraph(nodes_.size(), false);
 
+        // Set values for start position
         parents.at(start) = -1;
         distance.at(start) = 0;
         addedToGraph.at(start) = true;
-
         for (size_t idx = 0; idx < nodes_.at(start)->neighbors.size(); ++idx) {
             parents.at(nodes_.at(start)->neighbors.at(idx).end_id) = start;
             distance.at(nodes_.at(start)->neighbors.at(idx).end_id) = nodes_.at(start)->neighbors.at(idx).dist;
@@ -89,7 +95,7 @@ namespace encounters {
                 continue;
             }
             addedToGraph.at(edge.end_id) = true;
-            distance.at(edge.end_id) = parents.at(edge.start_id) + edge.dist;
+            distance.at(edge.end_id) = distance.at(parents.at(edge.end_id)) + edge.dist;
 
             for (encounter::edge &adj_edge : nodes_.at(edge.end_id)->neighbors) {
                 // Parse new frontier edges
