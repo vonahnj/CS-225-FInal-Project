@@ -114,7 +114,8 @@ namespace encounters {
 
         /**
          */
-        vector<double> getBetweennessValues();        
+        vector<double> getBetweennessValues();     
+        int getNodeCount();   
         private:
         KDTree locations_;
         vector<encounter*> nodes_;

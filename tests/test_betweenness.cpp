@@ -10,12 +10,14 @@ using namespace encounters;
 TEST_CASE("test") {
     Graph graph("tests/test_data/large_data.csv");
     vector<double> values = graph.getBetweennessValues();
-    vector<double> highest = vector<double>(10, 0);
+    int num = 10;
+    if(num > graph.getNodeCount()) {return;}
+    vector<double> highest = vector<double>(num, 0);
     for(int i = 0; i < (int)values.size(); i++) {
-        if(values[i] > highest[9]) {
-            for(int j = 0; j < 10; j++) {
+        if(values[i] > highest[num - 1]) {
+            for(int j = 0; j < num; j++) {
                 if(values[i] > highest[j]) {
-                    int curr = 9;
+                    int curr = num - 1;
                     while(curr > i) {
                         highest[curr] = highest[curr - 1];
                         curr--;
@@ -26,7 +28,7 @@ TEST_CASE("test") {
             }
         }
     }
-    for(int i = 0; i < 10; i++) {
+    for(int i = 0; i < num; i++) {
         std::cout << highest[i] << std::endl;
     }
 }
