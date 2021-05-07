@@ -77,10 +77,6 @@ namespace encounters {
         distance.at(start) = 0;
         addedToGraph.at(start) = true;
 
-        for (size_t idx = 0; idx < nodes_.at(start)->neighbors.size(); ++idx) {
-            parents.at(nodes_.at(start)->neighbors.at(idx).end_id) = start;
-        }
-
         while (!min_heap.empty()) {
             // Get next shortest edge not added to graph
             encounter::edge edge = min_heap.pop();
@@ -91,7 +87,6 @@ namespace encounters {
 
             for (encounter::edge &adj_edge : nodes_.at(edge.end_id)->neighbors) {
                 // Parse new frontier edges
-
                 if (!addedToGraph.at(adj_edge.end_id)) {
                     // If shorter edge found, update heap and records
                     if (distance.at(adj_edge.start_id) + adj_edge.dist < distance.at(adj_edge.end_id)) {
@@ -104,6 +99,31 @@ namespace encounters {
         }
 
         return parents;
+    }
+
+    vector<double> Graph::getBetweennessValues() {
+        vector<double> values = vector<double>(nodes_.size(), 0.0);
+        vector<int> tree;
+
+        for(int i = 0; i < (int)nodes_.size(); i++) {
+            tree = getSpanningTreeDijk(i);
+            for(int j = 0; j < (int)nodes_.size(); j++) {
+                if(tree[j] != -2) {
+                    int curr = j;
+                    while(tree[curr] != -1) {
+                        values[curr]++;
+                        curr = tree[curr];
+                    }
+                }
+                std::cout << tree[j];
+            }
+            std::cout << std::endl;
+        }
+        for(int i = 0; i < (int)nodes_.size(); i++) {
+            values[i] /= nodes_.size() * (nodes_.size() - 1);
+            std::cout << values[i] << std::endl;
+        }
+        return values;
     }
 
     // Iterator Functions: 
