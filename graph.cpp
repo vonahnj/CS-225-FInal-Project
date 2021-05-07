@@ -116,19 +116,8 @@ namespace encounters {
     vector<double> Graph::getBetweennessValues() {
         vector<double> values = vector<double>(nodes_.size(), 0.0);
         vector<int> tree;
-        // vector<vector<int> > test_trees; 
-        // vector<int> tree1 = {-1, 0, -2, 0};
-        // vector<int> tree2 = {1, -1, -2, 1};
-        // vector<int> tree3 = {-2, -2, -1, -2};
-        // vector<int> tree4 = {3, 3, -2, -1};
-        // test_trees.push_back(tree1); 
-        // test_trees.push_back(tree2); 
-        // test_trees.push_back(tree3); 
-        // test_trees.push_back(tree4); 
-
         for(int i = 0; i < (int)nodes_.size(); i++) {
             tree = getSpanningTreeDijk(i);
-            //tree = test_trees[i];
             for(int j = 0; j < (int)nodes_.size(); j++) {
                 if(tree[j] != -2 && tree[j] != -1) {
                     int curr = j;
@@ -138,13 +127,10 @@ namespace encounters {
                     }
                     values[curr]++;
                 }
-                std::cout << tree[j];
             }
-            std::cout << std::endl;
         }
         for(int i = 0; i < (int)nodes_.size(); i++) {
             values[i] /= nodes_.size() * (nodes_.size() - 1);
-            std::cout << values[i] << std::endl;
         }
         return values;
     }

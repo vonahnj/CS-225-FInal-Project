@@ -13,6 +13,20 @@ TEST_CASE("Test distance between two places") {
     REQUIRE(round(dist(one, two)) == 2923);
 }
 
+TEST_CASE("Test distance between set of edges") {
+    encounter one;
+    one.location.first = 29.8830556; one.location.second = -97.9411111;
+    encounter two;
+    two.location.first = 29.88305; two.location.second = -97.94121;
+    encounter three;
+    three.location.first = 29.8972346; three.location.second = -97.9074231;
+    double dist1 = dist(three, one);
+    double distcheck = dist(one, three);
+    double dist2 = dist(two, one) + dist(three, two);
+    REQUIRE(dist1 == distcheck);
+    REQUIRE(dist1 < dist2);
+}
+
 TEST_CASE("Test operations for edges") {
     encounter::edge first = encounter::edge(1, 2, 3);
     encounter::edge second = encounter::edge(1, 2, 3);
