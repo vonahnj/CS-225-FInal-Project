@@ -112,6 +112,9 @@ namespace encounters {
          */
         std::list<encounter*> getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end);
 
+        /**
+         */
+        vector<double> getBetweennessValues();        
         private:
         KDTree locations_;
         vector<encounter*> nodes_;
