@@ -42,6 +42,7 @@ namespace encounters {
         return nodes_.at(id);
     }
 
+    int Graph::getNodeCount() {return (int)nodes_.size();}
 
     std::list<const encounter*> Graph::getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end) {
         int startIndex = findNearestNeighbor(start);
