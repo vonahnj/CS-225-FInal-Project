@@ -56,7 +56,6 @@ namespace encounters {
         }
 
         linkNodes(nodes);
-        std::cout<<"Found: "<<nodes.size()<<std::endl;
         return nodes;
     }
 

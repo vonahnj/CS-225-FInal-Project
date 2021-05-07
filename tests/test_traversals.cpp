@@ -25,7 +25,9 @@ void checkVisitsAll(int numNodes, std::queue<encounter*> traversal) {
   }
 
   for (bool visit : visited) {
-    REQUIRE(visit);
+    if(!visit) {
+      FAIL();
+    }
   }
 }
 

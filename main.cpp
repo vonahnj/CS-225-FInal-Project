@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
         return 1;
     } 
     Graph graph(argv[1]);
+    std::cout<<"Found "<<graph.getNodeCount()<<" valid encounters"<<std::endl;
 
     if (argc == 4) {
         // Centrality

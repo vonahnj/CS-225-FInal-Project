@@ -64,7 +64,7 @@ TEST_CASE("Test findNearestNeighbor", "[kdtree]") {
 
 
 
-TEST_CASE("Test findNearestNeighnor on Empty", "[kdtree]") {
+TEST_CASE("Test findNearestNeighbor on Empty", "[kdtree]") {
     KDTree tree;
 
     REQUIRE( tree.findNearestNeighbor(Point<2>(5, 5)) == -1 );
