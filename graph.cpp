@@ -108,12 +108,13 @@ namespace encounters {
         for(int i = 0; i < (int)nodes_.size(); i++) {
             tree = getSpanningTreeDijk(i);
             for(int j = 0; j < (int)nodes_.size(); j++) {
-                if(tree[j] != -2) {
+                if(tree[j] != -2 && tree[i] != -1) {
                     int curr = j;
                     while(tree[curr] != -1) {
                         values[curr]++;
                         curr = tree[curr];
                     }
+                    values[curr]++;
                 }
                 std::cout << tree[j];
             }

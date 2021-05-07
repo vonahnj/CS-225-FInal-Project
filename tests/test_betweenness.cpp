@@ -8,6 +8,6 @@
 using namespace encounters;
 
 TEST_CASE("test") {
-    Graph graph("tests/test_data/small_data.csv");
+    Graph graph("tests/test_data/large_data.csv");
     graph.getBetweennessValues();
 }
