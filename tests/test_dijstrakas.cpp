@@ -30,13 +30,13 @@ TEST_CASE("Test shortest path, small", "[dijstrakas]") {
     checkPath(path, expectedPath);
 
     // Check path to very closeby encounter
-    path = graph.getShortestPathDijk(std::pair<double, double>(29.8830556, -97.941121), std::pair<double, double>(29.8830556,-97.9411111));
+    path = graph.getShortestPathDijk(std::pair<double, double>(29.88305, -97.94121), std::pair<double, double>(29.8830556,-97.9411111));
     expectedPath = {1, 0};
     checkPath(path, expectedPath);
 
     // Check path to another connected encounter
     path = graph.getShortestPathDijk(std::pair<double, double>(29.8830556,-97.9411111), std::pair<double, double>(29.8972346,-97.9074231));
-    expectedPath = {0, 3};
+    expectedPath = {0, 1, 3};
     checkPath(path, expectedPath);
 
     // Check path to unconnected component
@@ -46,9 +46,9 @@ TEST_CASE("Test shortest path, small", "[dijstrakas]") {
 }
 
 TEST_CASE("Test shortest path, big", "[dijstrakas]") {
-    Graph graph("tests/test_data/big_data.csv");
+    Graph graph("tests/test_data/parallelogram.csv");
 
-    list<encounter*> path = graph.getShortestPathDijk(std::pair<double, double>(29.8830556,-97.9411111), std::pair<double, double>(29.8830556,-97.9411111));
-    //vector<int> expectedPath = {0};
-
+    list<encounter*> path = graph.getShortestPathDijk(std::pair<double, double>(38.64261, -88.87939), std::pair<double, double>(38.97309, -88.45066));
+    vector<int> expectedPath = {0, 2, 3};
+    checkPath(path, expectedPath);
 }

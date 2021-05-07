@@ -47,7 +47,7 @@ namespace encounters {
         int endIndex = findNearestNeighbor(end);
 
         // Get spanning tree
-        if (startIndex == -1) return list<encounter*>();
+        if (startIndex == -1 || endIndex == -1) return list<encounter*>();
         vector<int> tree = getSpanningTreeDijk(startIndex);
         if (tree.at(endIndex) == -2) {
             return list<encounter*>();
@@ -79,15 +79,17 @@ namespace encounters {
 
         for (size_t idx = 0; idx < nodes_.at(start)->neighbors.size(); ++idx) {
             parents.at(nodes_.at(start)->neighbors.at(idx).end_id) = start;
+            distance.at(nodes_.at(start)->neighbors.at(idx).end_id) = nodes_.at(start)->neighbors.at(idx).dist;
         }
 
         while (!min_heap.empty()) {
             // Get next shortest edge not added to graph
             encounter::edge edge = min_heap.pop();
-            while (addedToGraph.at(edge.end_id)) {
-                edge = min_heap.pop();
+            if (addedToGraph.at(edge.end_id)) {
+                continue;
             }
             addedToGraph.at(edge.end_id) = true;
+            distance.at(edge.end_id) = parents.at(edge.start_id) + edge.dist;
 
             for (encounter::edge &adj_edge : nodes_.at(edge.end_id)->neighbors) {
                 // Parse new frontier edges
