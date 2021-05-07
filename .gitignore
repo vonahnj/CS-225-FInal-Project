@@ -8,3 +8,4 @@ encounters
 *.o
 *.d
 distance.txt
+output.txt

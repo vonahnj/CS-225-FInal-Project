@@ -110,7 +110,7 @@ namespace encounters {
 
         /**
          */
-        std::list<encounter*> getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end);
+        std::list<const encounter*> getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end);
 
         /**
          */
@@ -125,6 +125,6 @@ namespace encounters {
 
         /**
          */
-        std::list<encounter*> getShortestPathDijk(int startIndex, int endIndex);
+        std::list<const encounter*> getShortestPathDijk(int startIndex, int endIndex);
     };
 } // namespace encounters

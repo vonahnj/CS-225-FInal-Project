@@ -43,23 +43,23 @@ namespace encounters {
     }
 
 
-    std::list<encounter*> Graph::getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end) {
+    std::list<const encounter*> Graph::getShortestPathDijk(const std::pair<double, double> &start, const std::pair<double, double> &end) {
         int startIndex = findNearestNeighbor(start);
         int endIndex = findNearestNeighbor(end);
 
         return getShortestPathDijk(startIndex, endIndex);
     }
 
-    std::list<encounter*> Graph::getShortestPathDijk(int startIndex, int endIndex) {
+    std::list<const encounter*> Graph::getShortestPathDijk(int startIndex, int endIndex) {
         // Get spanning tree
-        if (startIndex == -1 || endIndex == -1) return list<encounter*>();
+        if (startIndex == -1 || endIndex == -1) return list<const encounter*>();
         vector<int> tree = getSpanningTreeDijk(startIndex);
         if (tree.at(endIndex) == -2) {
-            return list<encounter*>();
+            return list<const encounter*>();
         }
 
         // Create path from end
-        std::list<encounter*> path;
+        std::list<const encounter*> path;
         path.push_front(nodes_.at(endIndex));
         int currentIndex = tree.at(endIndex);
 

@@ -8,10 +8,10 @@ using namespace encounters;
 using std::vector;
 using std::list;
 
-void checkPath(list<encounter*> &actual, vector<int> &expected) {
+void checkPath(list<const encounter*> &actual, vector<int> &expected) {
     REQUIRE(actual.size() == expected.size());
 
-    list<encounter*>::iterator actualIt = actual.begin();
+    list<const encounter*>::iterator actualIt = actual.begin();
     vector<int>::iterator expectedIt = expected.begin();
 
     while (actualIt != actual.end() && expectedIt != expected.end()) {
@@ -21,11 +21,11 @@ void checkPath(list<encounter*> &actual, vector<int> &expected) {
     }
 }
 
-TEST_CASE("Test shortest path, small", "[dijstrakassmall]") {
+TEST_CASE("Test shortest path, small", "[dijstrakas]") {
     Graph graph("tests/test_data/small_data.csv");
 
     // check path to itself
-    list<encounter*> path = graph.getShortestPathDijk(std::pair<double, double>(29.8830556,-97.9411111), std::pair<double, double>(29.8830556,-97.9411111));
+    list<const encounter*> path = graph.getShortestPathDijk(std::pair<double, double>(29.8830556,-97.9411111), std::pair<double, double>(29.8830556,-97.9411111));
     vector<int> expectedPath = {0};
     checkPath(path, expectedPath);
 
@@ -48,7 +48,7 @@ TEST_CASE("Test shortest path, small", "[dijstrakassmall]") {
 TEST_CASE("Test shortest path, big", "[dijstrakas]") {
     Graph graph("tests/test_data/parallelogram.csv");
 
-    list<encounter*> path = graph.getShortestPathDijk(std::pair<double, double>(38.64261, -88.87939), std::pair<double, double>(38.97309, -88.45066));
+    list<const encounter*> path = graph.getShortestPathDijk(std::pair<double, double>(38.64261, -88.87939), std::pair<double, double>(38.97309, -88.45066));
     vector<int> expectedPath = {0, 2, 3};
     checkPath(path, expectedPath);
 
