@@ -192,7 +192,7 @@ void KDTree::_copy(const KDTreeNode *current, vector<encounter*>& newPoints) con
   }
   
   _copy(current->left, newPoints);
-  newPoints.push_back(new encounter(current->point[0], current->point[1], current->value));
+  newPoints.push_back(new encounter(current->point[0], current->point[1], current->value, ""));
   _copy(current->right, newPoints);
 }
 

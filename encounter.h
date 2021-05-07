@@ -23,9 +23,10 @@ namespace encounters {
         size_t id;
         std::vector<edge> neighbors;
         std::pair<double, double> location;
+        std::string description;
 
         encounter() : id(0), location(0, 0) {}
-        encounter(double latit_, double longit_, size_t id_) : id(id_), location(latit_, longit_) {}
+        encounter(double latit_, double longit_, size_t id_, const std::string &descrip) : id(id_), location(latit_, longit_), description(descrip) {}
     };
 
     /**

@@ -24,8 +24,8 @@ TEST_CASE("Test operations for edges") {
 }
 
 TEST_CASE("Test == for encounters") {
-    encounter enc1 = encounter(3, 4, 2);
-    encounter enc2 = encounter(3, 4, 2);
+    encounter enc1 = encounter(3, 4, 2, "");
+    encounter enc2 = encounter(3, 4, 2, "");
     encounter::edge first = encounter::edge(1, 2, 1);
     encounter::edge second = encounter::edge(1, 3, 3);
     encounter::edge third = encounter::edge(1, 1, 0);

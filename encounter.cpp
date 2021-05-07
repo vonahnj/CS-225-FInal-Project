@@ -102,6 +102,6 @@ namespace encounters {
     }
 
     std::ostream & operator<<(std::ostream &out, const encounter &e) {
-        return out<<e.id<<"\t("<<e.location.first<<", "<<e.location.second<<")";
+        return out<<e.id<<".) Location: ("<<e.location.first<<", "<<e.location.second<<")"<<"\t Description: "<<e.description;
     }
 }

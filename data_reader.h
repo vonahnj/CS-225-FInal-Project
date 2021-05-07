@@ -15,6 +15,7 @@ namespace encounters {
         static const size_t STATE_COLUMN = 2;
         static const size_t LATITUDE_COLUMN = 9;
         static const size_t LONGITUDE_COLUMN = 10;
+        static const size_t DESCRIPTION_COLUMN = 7;
 
         static const double DISTANCE_THRESHOLD; // The distance (in kilometers) within two encounters must fall to be location neighbors
         static const string DESIRED_STATE;

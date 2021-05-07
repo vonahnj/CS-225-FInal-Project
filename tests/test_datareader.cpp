@@ -25,10 +25,10 @@ TEST_CASE("Test no data points", "[data_reader]") {
 
 TEST_CASE("Test few data points", "[data_reader]") {
     vector<encounter> expected = {
-        encounter(29.8830556,-97.9411111, 0), 
-        encounter(29.88305, -97.94121, 1), 
-        encounter(28.9783333,-96.6458333, 2), 
-        encounter(29.8972346,-97.9074231, 3), 
+        encounter(29.8830556,-97.9411111, 0, ""), 
+        encounter(29.88305, -97.94121, 1, ""), 
+        encounter(28.9783333,-96.6458333, 2, ""), 
+        encounter(29.8972346,-97.9074231, 3, ""), 
     };
 
     linkDist(expected.at(0), expected.at(1));

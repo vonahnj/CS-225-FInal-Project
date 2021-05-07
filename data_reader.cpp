@@ -47,7 +47,7 @@ namespace encounters {
             }
 
             // allocate new encounter
-            encounter *newEncounter = new encounter(lat, longit, idNum);
+            encounter *newEncounter = new encounter(lat, longit, idNum, components.at(DESCRIPTION_COLUMN));
             nodes.push_back(newEncounter);
             idNum++;
             

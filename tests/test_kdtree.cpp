@@ -49,7 +49,7 @@ TEST_CASE("Test findNearestNeighbor", "[kdtree]") {
 
     vector<encounter*> points;
     for (int i = 0; i < 6; ++i){
-        points.push_back(new encounter(coords[i][0], coords[i][1], i));
+        points.push_back(new encounter(coords[i][0], coords[i][1], i, ""));
     }
     Point<2> target(targetCoords);
     int expected = 2;
