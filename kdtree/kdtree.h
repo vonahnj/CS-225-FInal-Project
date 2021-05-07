@@ -57,7 +57,6 @@ class KDTree
      *     cout << smallerDimVal(a, b, 2) << endl; // should print false
      *     cout << smallerDimVal(a, b, 1) << endl; // based on operator<, this should be true
      *
-     * @todo This function is required for Part 1.
      * @param first Point to compare.
      * @param second Second point to compare.
      * @param curDim Dimension these points are being compared in.
@@ -94,7 +93,6 @@ class KDTree
      *     cout << shouldReplace(target, currentBest3, possibleBest3) << endl;
      *      // based on operator<, this should be false
      *
-     * @todo This function is required for Part 1.
      * @param target The Point we want to be close to.
      * @param currentBest The Point that is currently our closest Point
      *    to target.
@@ -149,7 +147,6 @@ class KDTree
      * that "select pivotIndex between left and right" means that you
      * should choose a midpoint between the left and right indices.
      *
-     * @todo This function is required for Part 1.
      * @param newPoints The vector of points to build your KDTree off of.
      */
     KDTree(const vector<encounter*>& newPoints);
@@ -234,7 +231,6 @@ class KDTree
      * @see There is [an example]
      * (https://courses.engr.illinois.edu/cs225/sp2019/mps/mosaics/) in the MP instructions.
      *
-     * @todo This function is required for Part 1.
      * @param query The point we wish to find the closest neighbor to in the
      *  tree.
      * @return The closest point to a in the KDTree.
@@ -266,22 +262,35 @@ class KDTree
                    int left, int top, int width, int currd) const;
 
     /**
-     * @todo Add your helper functions here.
      */
     void addSection(KDTreeNode *&subroot, const vector<encounter*>& newPoints, int start, int end, int level);
 
+    /**
+     */
     KDTreeNode* findNearestNeighbor(KDTreeNode* current, const Point<2>& query, size_t level) const;
 
+    /**
+     */
     vector<encounter*> sort(const vector<encounter*> &source, int start, int end, int level);
 
+    /**
+     */
     void _destroy();
 
+    /**
+     */
     void _destroy(const KDTreeNode *current);
 
+    /**
+     */
     void _copy(const KDTree &rhs);
 
+    /**
+     */
     void _copy(const KDTreeNode *current, vector<encounter*>& newPoints) const ;
 
+    /**
+     */
     double squaredDistance(const Point<2> &first, const Point<2> &second) const;
 };
  

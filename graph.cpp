@@ -47,8 +47,11 @@ namespace encounters {
         int endIndex = findNearestNeighbor(end);
 
         // Get spanning tree
+        if (startIndex == -1) return list<encounter*>();
         vector<int> tree = getSpanningTreeDijk(startIndex);
-        if (tree.at(endIndex) == -2) return list<encounter*>();
+        if (tree.at(endIndex) == -2) {
+            return list<encounter*>();
+        }
 
         // Create path from end
         std::list<encounter*> path;
@@ -74,6 +77,10 @@ namespace encounters {
         distance.at(start) = 0;
         addedToGraph.at(start) = true;
 
+        for (size_t idx = 0; idx < nodes_.at(start)->neighbors.size(); ++idx) {
+            parents.at(nodes_.at(start)->neighbors.at(idx).end_id) = start;
+        }
+
         while (!min_heap.empty()) {
             // Get next shortest edge not added to graph
             encounter::edge edge = min_heap.pop();
@@ -84,6 +91,7 @@ namespace encounters {
 
             for (encounter::edge &adj_edge : nodes_.at(edge.end_id)->neighbors) {
                 // Parse new frontier edges
+
                 if (!addedToGraph.at(adj_edge.end_id)) {
                     // If shorter edge found, update heap and records
                     if (distance.at(adj_edge.start_id) + adj_edge.dist < distance.at(adj_edge.end_id)) {

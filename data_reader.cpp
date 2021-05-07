@@ -77,10 +77,11 @@ namespace encounters {
 
                 // Create edge if distance between first and second falls within distance threshold
                 double distance = dist(first, second);
+
                 if (distance < DISTANCE_THRESHOLD) {
                     first.neighbors.push_back(encounter::edge(first.id, second.id, distance));
                     second.neighbors.push_back(encounter::edge(second.id, first.id, distance));
-                }
+                } 
             }
 
             // Sort edges so they're ordered by distance, 
