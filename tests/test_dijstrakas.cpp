@@ -51,4 +51,12 @@ TEST_CASE("Test shortest path, big", "[dijstrakas]") {
     list<encounter*> path = graph.getShortestPathDijk(std::pair<double, double>(38.64261, -88.87939), std::pair<double, double>(38.97309, -88.45066));
     vector<int> expectedPath = {0, 2, 3};
     checkPath(path, expectedPath);
+
+    path = graph.getShortestPathDijk(std::pair<double, double>(38.83168, -89.1971), std::pair<double, double>(38.97309, -88.45066));
+    expectedPath = {5, 2, 1, 3};
+    checkPath(path, expectedPath);
+
+    path = graph.getShortestPathDijk(std::pair<double, double>(38.63809, -89.12175), std::pair<double, double>(38.97309, -88.45066));
+    expectedPath = {4, 0, 1, 3};
+    checkPath(path, expectedPath);
 }
