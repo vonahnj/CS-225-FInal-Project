@@ -2,7 +2,9 @@
 
 ## [Project Proposal](documents/project_proposal.md)
 ## [Contract](documents/contract.md)
-
+## [Development](documents/development.md)
+## [Goals](documents/goals.md)
+## [Results](documents/results.md)
 
 ## Locations
 1. Major Code
