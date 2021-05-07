@@ -77,10 +77,10 @@ The state listed **must be il** because the data_reader only processes encounter
 
 #### Defining Output Location
 Your output location must be the second argument in the executable. 
-See [Running](running) for more details
+See **Running** for more details
 
 ## How to Build/Run Test Suite
-1. If you have not already done so, ensure you have done the first two steps defined in [Building](building)
+1. If you have not already done so, ensure you have done the first two steps defined in **Building**
 2. Run: 
    `make test`
 
