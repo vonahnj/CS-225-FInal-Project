@@ -34,7 +34,17 @@ namespace encounters {
     // Access Functions
 
     int Graph::findNearestNeighbor(const std::pair<double, double> &location) const {
-        return locations_.findNearestNeighbor(Point<2>(location.first, location.second));
+        // Get approximate location
+        int index = locations_.findNearestNeighbor(Point<2>(location.first, location.second));
+        
+        // Return node with lowest index at this location
+        if (!nodes_.at(index)->neighbors.empty()) {
+            const encounter::edge &edge = nodes_.at(index)->neighbors.front();
+            if (edge.dist == 0 && edge.end_id < index) {
+                index = edge.end_id;
+            }
+        }
+        return index;
     }
 
     const encounter* Graph::getNode(int id) const {
@@ -182,28 +192,12 @@ namespace encounters {
     Graph::BFS::BFS(const Graph &g, const std::pair<double, double> &start) {
         // Get index at approximate location
         int startIndex = g.findNearestNeighbor(start);
-
-        // Get lowest indexed node at coordinates
-        if (!g.getNode(startIndex)->neighbors.empty()) {
-            const encounter::edge &edge = g.getNode(startIndex)->neighbors.front();
-            if (edge.dist == 0 && edge.end_id < startIndex) {
-                startIndex = edge.end_id;
-            }
-        }
         master_ = Traversals::getBFSTraversal(g.nodes_, startIndex);
     }
 
     Graph::DFS::DFS(const Graph &g, const std::pair<double, double> &start) {
         // Get index at approximate location
         int startIndex = g.findNearestNeighbor(start);
-
-        // Get lowest indexed node at coordinates
-        if (!g.getNode(startIndex)->neighbors.empty()) {
-            const encounter::edge &edge = g.getNode(startIndex)->neighbors.front();
-            if (edge.dist == 0 && edge.end_id < startIndex) {
-                startIndex = edge.end_id;
-            }
-        }
         master_  = Traversals::getDFSTraversal(g.nodes_, startIndex);
     }
     

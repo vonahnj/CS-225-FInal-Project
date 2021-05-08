@@ -31,7 +31,7 @@ namespace encounters {
         double c = 2 * asin(sqrt(a));
         
         double absolute = abs(rad * c);
-        return (int)(absolute * 10000)/10000.0;
+        return (int)(absolute * 10000)/10000.0; // Round to the nearest decimeter
     }
 
     bool operator==(const encounter::edge &first, const encounter::edge &second) {
