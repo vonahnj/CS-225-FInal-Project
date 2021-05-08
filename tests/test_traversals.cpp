@@ -2,6 +2,7 @@
 #include "../data_reader.h"
 #include "../encounter.h"
 #include "../traversals.h"
+#include "../graph.h"
 
 #include <vector>
 #include <queue>
@@ -29,6 +30,8 @@ void checkVisitsAll(int numNodes, std::queue<encounter*> traversal) {
       FAIL();
     }
   }
+
+  SUCCEED();
 }
 
 void checkOrder(std::vector<size_t> order, std::queue<encounter*> traversal) {
@@ -39,6 +42,21 @@ void checkOrder(std::vector<size_t> order, std::queue<encounter*> traversal) {
   while (!traversal.empty()) {
     if (traversal.front()->id != *it) {
       INFO(std::to_string(traversal.front()->id)+" is not " + std::to_string(*it));
+      FAIL();
+    }
+    traversal.pop();
+    ++it;
+  }
+
+  SUCCEED();
+}
+
+void checkOrder(Graph::traversal &iterator, std::queue<encounter*> traversal) {
+  Graph::traversal::iterator it = iterator.begin();
+
+  while (it != iterator.end()) {
+    if (traversal.front()->id != (*it)->id) {
+      INFO(std::to_string(traversal.front()->id)+" is not " + std::to_string((*it)->id));
       FAIL();
     }
     traversal.pop();
@@ -202,5 +220,77 @@ TEST_CASE("BFS ordering - big", "[BFS][traversals]") {
 
   checkVisitsAll(big_data.size(), traversal);
   checkOrder(order, traversal);
+  deleteNodes(big_data);
+}
+
+///////////////
+
+TEST_CASE("DFS iterator matches traversal ordering", "[DFS][traversals][iterators]") {
+  vector<encounter*> small_data = DataReader::readFromFile("tests/test_data/small_data.csv");
+  Graph graph("tests/test_data/small_data.csv");
+
+  Graph::DFS dfs(graph, graph.getNode(0)->location);
+  std::queue<encounter*> traversal = Traversals::getDFSTraversal(small_data, 0);
+  
+  checkOrder(dfs, traversal);
+
+  traversal = Traversals::getDFSTraversal(small_data, 1);
+  dfs = Graph::DFS(graph, graph.getNode(1)->location);
+  checkOrder(dfs, traversal);
+
+  traversal = Traversals::getDFSTraversal(small_data, 2);
+  dfs = Graph::DFS(graph, graph.getNode(2)->location);
+  checkOrder(dfs, traversal);
+
+  traversal = Traversals::getDFSTraversal(small_data, 3);
+  dfs = Graph::DFS(graph, graph.getNode(3)->location);
+  checkOrder(dfs, traversal);
+
+  deleteNodes(small_data);
+}
+
+TEST_CASE("DFS iterator matches traversal ordering - big", "[DFS][traversals][iterators]") {
+  vector<encounter*> big_data = DataReader::readFromFile("tests/test_data/large_data.csv");
+  Graph graph("tests/test_data/large_data.csv");
+
+  std::queue<encounter*> traversal = Traversals::getDFSTraversal(big_data, 0);
+  Graph::DFS dfs(graph, graph.getNode(0)->location);
+  checkOrder(dfs, traversal);
+
+  deleteNodes(big_data);
+ }
+
+TEST_CASE("BFS ordering matches traversal ordering", "[BFS][traversals][iterators]") {
+  vector<encounter*> small_data = DataReader::readFromFile("tests/test_data/small_data.csv");
+  Graph graph("tests/test_data/small_data.csv");
+
+  Graph::BFS bfs(graph, graph.getNode(0)->location);
+  std::queue<encounter*> traversal = Traversals::getBFSTraversal(small_data, 0);
+  
+  checkOrder(bfs, traversal);
+
+  traversal = Traversals::getBFSTraversal(small_data, 1);
+  bfs = Graph::BFS(graph, graph.getNode(1)->location);
+  checkOrder(bfs, traversal);
+
+  traversal = Traversals::getBFSTraversal(small_data, 2);
+  bfs = Graph::BFS(graph, graph.getNode(2)->location);
+  checkOrder(bfs, traversal);
+
+  traversal = Traversals::getBFSTraversal(small_data, 3);
+  bfs = Graph::BFS(graph, graph.getNode(3)->location);
+  checkOrder(bfs, traversal);
+
+  deleteNodes(small_data);
+}
+
+TEST_CASE("BFS ordering matches traversal ordering- big", "[BFS][traversals][iterators]") {
+  vector<encounter*> big_data = DataReader::readFromFile("tests/test_data/large_data.csv");
+  Graph graph("tests/test_data/large_data.csv");
+
+  std::queue<encounter*> traversal = Traversals::getBFSTraversal(big_data, 0);
+  Graph::BFS bfs(graph, graph.getNode(0)->location);
+  checkOrder(bfs, traversal);
+
   deleteNodes(big_data);
 }

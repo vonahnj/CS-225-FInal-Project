@@ -27,7 +27,7 @@ namespace encounters {
      * @param start the index of the starting node
      * @return a queue containing the nodes in breadth-first order
      */
-    static queue<encounter*> getBFSTraversal(vector<encounter*> map, int start);
+    static queue<encounter*> getBFSTraversal(const vector<encounter*> &map, int start);
 
     /**
      * Creates a queue holding the Depth-First-Search ordered traversal of the nodes
@@ -37,7 +37,7 @@ namespace encounters {
      * @param start the index of the starting node
      * @return a queue containing the nodes in depth-first order
      */
-    static queue<encounter*> getDFSTraversal(vector<encounter*> map, int start);
+    static queue<encounter*> getDFSTraversal(const vector<encounter*> &map, int start);
 
   private: 
     /**
@@ -51,7 +51,7 @@ namespace encounters {
      * @param bfs_traversal a queue to add the traversal to
      * @param visited an array to track whether the traversal has visited a given node
      */
-    static void BFS(vector<encounter*> &map, int start, queue<encounter*> &bfs_traversal, vector<bool> &visited);
+    static void BFS(const vector<encounter*> &map, int start, queue<encounter*> &bfs_traversal, vector<bool> &visited);
 
     /**
      * Conducts a Depth-First-Search starting at the node given by the parameters
@@ -64,6 +64,6 @@ namespace encounters {
      * @param dfs_traversal a queue to add the traversal to
      * @param visited an array to track whether the traversal has visited a given node
      */
-    static void DFS(vector<encounter*> &map, int start, queue<encounter*> &dfs_traversal, vector<bool> &visited);
+    static void DFS(const vector<encounter*> &map, int start, queue<encounter*> &dfs_traversal, vector<bool> &visited);
   };
 }

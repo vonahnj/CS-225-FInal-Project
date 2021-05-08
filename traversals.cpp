@@ -6,7 +6,7 @@ namespace encounters {
   using std::stack;
 
   // in the future: add edges to show the actual traversal taking place?
-  queue<encounter*> Traversals::getBFSTraversal(vector<encounter*> map, int start) {
+  queue<encounter*> Traversals::getBFSTraversal(const vector<encounter*> &map, int start) {
     queue<encounter*> bfs_traversal;
     vector<bool> visited(map.size(), false);
     if ((size_t)(start) >= map.size() || start < 0) start = 0;
@@ -24,7 +24,7 @@ namespace encounters {
     return bfs_traversal;
   }
 
-  void Traversals::BFS(vector<encounter*> &map, int start, queue<encounter*> &bfs_traversal, vector<bool> &visited) {
+  void Traversals::BFS(const vector<encounter*> &map, int start, queue<encounter*> &bfs_traversal, vector<bool> &visited) {
     queue<encounter*> bfs_queue;
     bfs_queue.push(map[start]);
 
@@ -51,7 +51,7 @@ namespace encounters {
     }
   }
 
-  queue<encounter*> Traversals::getDFSTraversal(vector<encounter*> map, int start) {
+  queue<encounter*> Traversals::getDFSTraversal(const vector<encounter*> &map, int start) {
     queue<encounter*> dfs_traversal;
     vector<bool> visited(map.size(), false);
     if ((size_t)(start) >= map.size() || start < 0) start = 0;
@@ -70,7 +70,7 @@ namespace encounters {
     return dfs_traversal;
   }
 
-  void Traversals::DFS(vector<encounter*> &map, int start, queue<encounter*> &dfs_traversal, vector<bool> &visited) {
+  void Traversals::DFS(const vector<encounter*> &map, int start, queue<encounter*> &dfs_traversal, vector<bool> &visited) {
     visited.at(start) = true;
     dfs_traversal.push(map[start]);
 
