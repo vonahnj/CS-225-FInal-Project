@@ -29,30 +29,30 @@
 
 # Locations
 ## Major Code
-   * data_reader.h and data_reader.cpp
+   * [data_reader.h](data_reader.h) and [data_reader.cpp](data_reader.cpp)
      * Read Data from CSV File
      * Create Nodes on the heap and link in O(n<sup>2</sup>)
-   * encounter.h and encounter.cpp
+   * [encounter.h](encounter.h) and [encounter.cpp](encounter.cpp)
      * Define encounter node content and data stored in edges
      * Create distance method to determine distance between latitude and longitudinal coordinates in kilometers
      * Write comparision methods between edges to allow for sorting
-   * graph.h and graph.cpp 
+   * [graph.h](graph.h) and [graph.cpp](graph.cpp) 
      * Store graph data
      * Implementation of graph algorithms
      * Implementation of iterators
      * Free up memory to prevent memory leaks
-   * traversals.h and traversals.cpp
+   * [traversals.h](traversals.h) and [traversals.cpp](traversals.cpp)
      * Determine order for BFS and DFS traversals
-   * main.cpp
+   * [main.cpp](main.cpp)
      * Location of executable to run algorithms on the code from the command line
-   * /tests
+   * [/tests](tests/)
      * Folder that holds test files and test data
-   * /kdtree and /heap
+   * [/kdtree](kdtree/) and [/heap](heap/)
      * Folders holding assignments from mp_mosaics and lap_heaps that have been modified slightly to take encounters and edges instead of raw data
 
 ## Data Files
-   * main data with all information = data.csv
-   * shorter testing data = tests/test_data/*.csv
+   * main data with all information = [data.csv](data.csv)
+   * shorter testing data = [tests/test_data/*.csv](tests/test_data/)
 
 ## Result Files
    * The results of running this code appear where the user specifies in the command line 
@@ -120,27 +120,27 @@ See [Running](#running) for more details
 
 ## Test Descriptions
 
-### test_betweenness.cpp
+### [test_betweenness.cpp](tests/test_betweenness.cpp)
    * 
 
-### test_datareader.cpp
+### [test_datareader.cpp](tests/test_datareader.cpp)
   * Tests to ensure that DataReader reads all valid records
   * Tests to ensure that DataReader links the correct nodes
   * Tests to ensure that DataReader ignores erroneous records and gibberish
   
-### test_dijstrakas.cpp
+### [test_dijstrakas.cpp](tests/test_dijstrakas.cpp)
   * Tests getShortestPathDijk to ensure it gets the shortest path from different data sets. 
   * Tests with a small cycle and unconnected node as well as the points visualized [here](https://www.google.com/maps/d/u/0/edit?mid=1mdRbpRLo7sXlOq7Q9xYIfFJLHTtmq_Dd&usp=sharing)  
 
-### test_encounters.cpp
+### [test_encounters.cpp](tests/test_encounters.cpp)
   * Tests to ensure distance calculator is approximately correct
   * Tests the comparision operators for edges
   * Tests the == operator for encounters
 
-### test_kdtree.cpp
+### [test_kdtree.cpp](tests/test_kdtree.cpp)
   * Ensures findNearestNeighbor works correctly despite minor alterations to codebase so it accepts encounters. Tests are not exhaustive as most of the functionality is identical to the ones tested by mp_mosaics
 
-### test_traversals.cpp
+### [test_traversals.cpp](tests/test_traversals.cpp)
   * Ensures nodes are visited in the correct order for BFS and DFS traversals. Tests are run based on multiple different starting points on each data set
   * The traversals are each run on two sets of data. A small set of 4 nodes and a larger set of 312 nodes
   * Tests to ensure graph iterators match the same order as the tested traversals
