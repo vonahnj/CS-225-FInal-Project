@@ -1,5 +1,5 @@
 # CS 225 Data Structures
-## Project Proposal (ahqiu2-pzy2-jvonahn2-merchia2)
+## Project Proposal/Goals (ahqiu2-pzy2-jvonahn2-merchia2)
 
 1. **Leading Question** Given a location or time period, we would like to evaluate nearby UFO encounters or sightings and plot them on a map. 
 
