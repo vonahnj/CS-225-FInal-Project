@@ -36,7 +36,7 @@ namespace encounters {
     int Graph::findNearestNeighbor(const std::pair<double, double> &location) const {
         // Get approximate location
         int index = locations_.findNearestNeighbor(Point<2>(location.first, location.second));
-        
+
         // Return node with lowest index at this location
         if (!nodes_.at(index)->neighbors.empty()) {
             const encounter::edge &edge = nodes_.at(index)->neighbors.front();
@@ -82,7 +82,7 @@ namespace encounters {
 
         return path;
     }
-    
+
     vector<int> Graph::getSpanningTreeDijk(int start) {
         // Create initial values
         vector<int> parents(nodes_.size(), -2);
@@ -127,6 +127,7 @@ namespace encounters {
     vector<double> Graph::getBetweennessValues() {
         vector<double> values = vector<double>(nodes_.size(), 0.0);
         vector<int> tree;
+        
         for(int i = 0; i < (int)nodes_.size(); i++) {
             tree = getSpanningTreeDijk(i);
             for(int j = 0; j < (int)nodes_.size(); j++) {
@@ -146,7 +147,7 @@ namespace encounters {
         return values;
     }
 
-    // Iterator Functions: 
+    // Iterator Functions:
 
     const Graph::traversal::iterator& Graph::traversal::iterator::operator=(const iterator& rhs) {
         if (this != &rhs) {
@@ -154,29 +155,29 @@ namespace encounters {
         }
         return *this;
     }
-    
+
     const Graph::traversal::iterator& Graph::traversal::iterator::operator++() {
         if (!order.empty()) {
             order.pop();
         }
         return *this;
     }
-    
+
     const encounter* Graph::traversal::iterator::operator*() {
         if (order.empty()) return NULL;
         return order.front();
     }
-    
+
     const encounter& Graph::traversal::iterator::operator->() {
         return *order.front();
     }
-    
+
     bool Graph::traversal::iterator::operator==(const iterator& rhs) const {
         if (order.empty() && rhs.order.empty()) return true;
         if (order.empty() || rhs.order.empty()) return false;
-        return this->order.front()->id == rhs.order.front()->id;  
+        return this->order.front()->id == rhs.order.front()->id;
     }
-    
+
     bool Graph::traversal::iterator::operator!=(const iterator& rhs) const {
         return !(*this == rhs);
     }
@@ -200,5 +201,5 @@ namespace encounters {
         int startIndex = g.findNearestNeighbor(start);
         master_  = Traversals::getDFSTraversal(g.nodes_, startIndex);
     }
-    
+
 } // namespace encounters
