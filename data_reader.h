@@ -8,8 +8,13 @@ namespace encounters {
     using std::vector;
     using std::string;
 
+    /**
+     * Class to assist in reading in the encounters from a
+     * CSV data file (from kaggle),
+     * and also creating the graph linking closeby encounters.
+     */
     class DataReader {
-        public: 
+        public:
         // Information about the structure of the csv file
         static const size_t NUM_COLUMNS = 11;
         static const size_t STATE_COLUMN = 2;
@@ -21,22 +26,22 @@ namespace encounters {
         static const string DESIRED_STATE;
 
         /**
-         * Reads data from a csv file into encounter nodes. This ignores 
-         * data that does not have the following required fields: 
+         * Reads data from a csv file into encounter nodes. This ignores
+         * data that does not have the following required fields:
          * 1. Longitude
          * 2. Latitude
          * 3. Timestamp
-         * 
+         *
          * It also connects all nodes to encounters that occurred around the same
          * time or near the same location (time neighbors and location neighbors) while
          * assigning a unique id number to each node such that the n is the id of the
          * nth valid loaded data point.
-         * 
+         *
          * @param fileName the name of the csv file where the data resides
          * @return all encounters in the csv file linked to encounters with similar time and location
          */
         static vector<encounter*> readFromFile(const string &fileName);
-        
+
         private:
 
         /**
@@ -47,7 +52,7 @@ namespace encounters {
         static double parseDouble(const std::string &doubleStr);
 
         /**
-         * Links nodes with distance edges, making them location neighbors, if they fall 
+         * Links nodes with distance edges, making them location neighbors, if they fall
          * within a given radius of each other
          * @param nodes the nodes to be linked
          */

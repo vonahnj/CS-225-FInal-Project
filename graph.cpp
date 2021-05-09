@@ -21,11 +21,13 @@ namespace encounters {
     Graph::Graph() {}
 
     Graph::Graph(const std::string &file_name) {
+        // Create a KDTree for nearest-neighbors given our observation file
         nodes_ = DataReader::readFromFile(file_name);
         locations_ = KDTree(nodes_);
     }
 
     Graph::~Graph() {
+        // free memory allocated to each node
         for (size_t i = 0; i < nodes_.size(); i++) {
             delete nodes_.at(i);
         }
@@ -34,10 +36,10 @@ namespace encounters {
     // Access Functions
 
     int Graph::findNearestNeighbor(const std::pair<double, double> &location) const {
-        // Get approximate location
+        // Get index of location in our dataset closest to user-specified coordinates
         int index = locations_.findNearestNeighbor(Point<2>(location.first, location.second));
 
-        // Return node with lowest index at this location
+        // Return node with lowest index at this exact location (for consistency)
         if (!nodes_.at(index)->neighbors.empty()) {
             const encounter::edge &edge = nodes_.at(index)->neighbors.front();
             if (edge.dist == 0 && edge.end_id < index) {
@@ -62,19 +64,20 @@ namespace encounters {
     }
 
     std::list<const encounter*> Graph::getShortestPathDijk(int startIndex, int endIndex) {
-        // Get spanning tree
+        // Get spanning tree to trace path from start->end
         if (startIndex == -1 || endIndex == -1) return list<const encounter*>();
         vector<int> tree = getSpanningTreeDijk(startIndex);
         if (tree.at(endIndex) == -2) {
             return list<const encounter*>();
         }
 
-        // Create path from end
+        // Recreate path, starting from our end
         std::list<const encounter*> path;
         path.push_front(nodes_.at(endIndex));
         int currentIndex = tree.at(endIndex);
 
-        // Backtrack from end to begining
+        // Backtrack from end to begining, adding parent node to the front
+        // of our list
         while (currentIndex >= 0) {
             path.push_front(nodes_.at(currentIndex));
             currentIndex = tree.at(currentIndex);
@@ -111,7 +114,7 @@ namespace encounters {
             for (encounter::edge &adj_edge : nodes_.at(edge.end_id)->neighbors) {
                 // Parse new frontier edges
                 if (!addedToGraph.at(adj_edge.end_id)) {
-                    // If shorter edge found, update heap and records
+                    // If shorter edge found, update heap and record path in 'parents' (for spanning tree)
                     if (distance.at(adj_edge.start_id) + adj_edge.dist < distance.at(adj_edge.end_id)) {
                         distance.at(adj_edge.end_id) = distance.at(adj_edge.start_id) + adj_edge.dist;
                         parents.at(adj_edge.end_id) = adj_edge.start_id;
@@ -125,14 +128,21 @@ namespace encounters {
     }
 
     vector<double> Graph::getBetweennessValues() {
+        // values holdes centrality measures for each node
         vector<double> values = vector<double>(nodes_.size(), 0.0);
         vector<int> tree;
-        
+
+        // Find spanning trees from each starting point for all-pairs shortest paths
         for(int i = 0; i < (int)nodes_.size(); i++) {
             tree = getSpanningTreeDijk(i);
+
+            // Mark the points visited from our fixed start to every possible node
+            // but skip nonconnected (-2) or start (-1) node
             for(int j = 0; j < (int)nodes_.size(); j++) {
                 if(tree[j] != -2 && tree[j] != -1) {
                     int curr = j;
+
+                    // Traverse/mark visits until we hit our start (-1) node
                     while(tree[curr] != -1) {
                         values[curr]++;
                         curr = tree[curr];
@@ -141,6 +151,9 @@ namespace encounters {
                 }
             }
         }
+
+        // Normalize our centrality measure by the total ordered pairs of
+        // (start, end) we visited - namely, 2*(N choose 2) = N*(N-1) ordered pairs
         for(int i = 0; i < (int)nodes_.size(); i++) {
             values[i] /= nodes_.size() * (nodes_.size() - 1);
         }

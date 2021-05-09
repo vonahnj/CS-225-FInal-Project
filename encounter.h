@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include <vector>
 #include <ostream>
@@ -6,10 +6,11 @@
 
 namespace encounters {
     /**
+     * Struct to represent each encounter, with its attributes (location/description)
+     * as well as its relation to other encounters
+     * (edges and distance to closeby encounters)
      */
     struct encounter {
-        /**
-         */
         struct edge {
             int start_id;
             int end_id;
@@ -38,10 +39,10 @@ namespace encounters {
     std::ostream & operator<<(std::ostream &out, const encounter &e);
 
     /**
-     * Functions to compare edges. 
-     * (a < b) or (b > a) => 
-     *  Checks the following attributes and returns the 
-     *  comparision of the first one that is different: 
+     * Functions to compare edges.
+     * (a < b) or (b > a) =>
+     *  Checks the following attributes and returns the
+     *  comparision of the first one that is different:
      *      1. Distance
      *      2. Minimum End ID
      *      3. Maximum End ID
@@ -55,23 +56,23 @@ namespace encounters {
 
     /**
      * Compares two encounters to see if they have the same date, id, location, and adjacent edges
-     * 
+     *
      * This is a very costly operation so use it sparingly. Whenever possible, compare using distance or dates
      */
     bool operator==(const encounter &first, const encounter &second);
 
     /**
      * Calculates the physical distance between the first and second encounter
-     * in kilometers. 
+     * in kilometers.
      * This function always returns a positive value
      */
     double dist(const encounter &first, const encounter &second);
 
     /**
      * Calculates the physical distance between the first and second pair of GPS coordinates
-     * in kilometers. 
-     * This function always returns a positive value. 
-     * 
+     * in kilometers.
+     * This function always returns a positive value.
+     *
      * The first element of each pair is assumed to be the latitude while the second is presumed to be its longitude
      */
     double dist(const std::pair<double, double> &first, const std::pair<double, double> &second);

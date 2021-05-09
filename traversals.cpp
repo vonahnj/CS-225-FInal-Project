@@ -5,7 +5,6 @@ namespace encounters {
   using std::queue;
   using std::stack;
 
-  // in the future: add edges to show the actual traversal taking place?
   queue<encounter*> Traversals::getBFSTraversal(const vector<encounter*> &map, int start) {
     queue<encounter*> bfs_traversal;
     vector<bool> visited(map.size(), false);
@@ -20,7 +19,7 @@ namespace encounters {
         BFS(map, index, bfs_traversal, visited);
       }
     }
-    
+
     return bfs_traversal;
   }
 
@@ -35,10 +34,10 @@ namespace encounters {
 
       // skip already visited points
       if (visited.at(next_encounter->id)) {
-        continue; 
+        continue;
       }
 
-      // Add encounter to 
+      // Add encounter to our resulting traversal record
       bfs_traversal.push(next_encounter);
       visited.at(next_encounter->id) = true;
 
@@ -58,7 +57,7 @@ namespace encounters {
 
     // start the traversal at the starting location (map[start])
     DFS(map, start, dfs_traversal, visited);
-    
+
     // Collect all connected components not connected to start
     for (size_t index = 0; index < visited.size(); ++index) {
       if (!visited.at(index)) {
@@ -74,7 +73,7 @@ namespace encounters {
     visited.at(start) = true;
     dfs_traversal.push(map[start]);
 
-    // Visit node if not already visited
+    // Visit all the individual connected components
     for (encounter::edge &edge : map.at(start)->neighbors) {
       if (!visited.at(edge.end_id)) {
         DFS(map, edge.end_id, dfs_traversal, visited);
