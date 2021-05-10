@@ -121,7 +121,8 @@ See [Running](#running) for more details
 ## Test Descriptions
 
 ### [test_betweenness.cpp](tests/test_betweenness.cpp)
-   * 
+   * Tests that the centrality values align with manually calculated values for small graphs
+   * Tests that the results agree visually with slightly larger graphs such as [here](https://www.google.com/maps/d/u/0/edit?mid=1mdRbpRLo7sXlOq7Q9xYIfFJLHTtmq_Dd&usp=sharing)  
 
 ### [test_datareader.cpp](tests/test_datareader.cpp)
   * Tests to ensure that DataReader reads all valid records

@@ -67,5 +67,14 @@ Each section of a deliverable will cover the following topics in order:
 ### Centrality Algorithm
 
 1. Runtime
+
+    **Runtime: O(n(n + m\*logm))**
+
+    **Explanation:**
+    The majority of the work done by this algorithm is calling the spanning tree algorithm on each node in the graph. This gives the algorithm a bare minimum running time of O(n\*m\*logm). The actual traversal of a spanning tree takes between n and n^2 time depending on the whether the graph is more dense or linear. Because of the dense nature of our graph (with the number of edges being greater than 100x the number of nodes), it is safe to assume that this running time will be quite close to O(n) for the spanning tree traversal. This is supported by runtime testing that has been performed on both the full data set and the large test data, in which runtimes agreed within 14% for O(n(n + m\*logm)), but were drastically off for O(n(n^2 + m\*logm)). This leaves us at a running time estimate of O(n(n + m\*logm)). 
+
 2. Discoveries
+
+    
+
 3. Proof of Correctness
