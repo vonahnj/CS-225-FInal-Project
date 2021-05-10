@@ -75,6 +75,8 @@ Each section of a deliverable will cover the following topics in order:
 
 2. Discoveries
 
-    
+    The Betweenness Centrality algorithm was more so an application and analysis of our previous algorithms than an independent function. For this reason, it became clear quickly that it was necessary for our Dijkstra's Algorithms to work exactly as specificed in order fo this algortihm to work. This led to us finding and fixing errors in our previous algorithms that may have gone unnoticed otherwise. In terms of the actual results of our data, 4 of 5 most central nodes for Illinois lie along I-55 in a cluster outside of Chicago. This makes sense to be a hotspot for UFO sightings, as I-55 is [the most traveled highway in Illinois](https://www.nbcchicago.com/news/local/study-illinois-interstates-5th-busiest-in-nation/1961351/), and the segment leaving Chicago is likely a heavily-traveled area.
 
 3. Proof of Correctness
+
+    We used our smallest set of testing data and manually calculated the centrality values of each node and confirmed that our algorithm was in agreement. In addition, we manually gave the algorithm specific sets of spanning trees to ensure that the trees were being interpreted as intended. Finally, we visually confirmed on a [google map](https://www.google.com/maps/d/u/0/edit?mid=1mdRbpRLo7sXlOq7Q9xYIfFJLHTtmq_Dd&usp=sharing) that our most central nodes were logically consistent with the layout of the graph.
